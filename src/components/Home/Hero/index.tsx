@@ -1,6 +1,12 @@
+import { bookAppointment } from '@/actions/bookAppointment'
 import Image from 'next/image'
 
-const Hero = () => {
+type HeroProps = { searchParams?: { error?: string; booked?: string } }
+
+const Hero = ({ searchParams }: HeroProps) => {
+  const error = searchParams?.error
+  const booked = searchParams?.booked
+
   return (
     <>
       <section className="relative overflow-x-clip top-0 bg-primary circalanimat before:content-[''] before:absolute before:bg-[url('/images/work-grow/work-line.png')] before:bg-no-repeat before:bg-contain before:w-44 before:h-20 before:bottom-40 lg:before:inline-block before:hidden">
@@ -132,15 +138,26 @@ const Hero = () => {
                 data-aos-delay="200"
                 data-aos-duration="1000"
               >
-                <form>
+                <form action={bookAppointment}>
                   <h6 className="text-white sm:text-[26px] leading-[2.11rem] text-xl font-bold pb-5">
                     Book an appointment with us
                   </h6>
+                  {error && (
+                    <p className="text-red-200 dark:text-red-400 text-sm mb-4" role="alert">
+                      {decodeURIComponent(error)}
+                    </p>
+                  )}
+                  {booked === '1' && (
+                    <p className="text-green-200 dark:text-green-400 text-sm mb-4" role="status">
+                      Appointment booked successfully!
+                    </p>
+                  )}
                   <div className="grid md:grid-cols-2 grid-cols-1 gap-4 items-center mb-6">
                     <div className="col-span-1">
                       <input
                         type="text"
                         id="firstName"
+                        name="firstName"
                         className="bg-white text-darkmode text-base rounded-lg block w-full p-2.5 dark:bg-darkmode dark:placeholder:gray-400 dark:text-white focus:outline-0 focus:ring-1 focus:ring-secondary dark:focus:ring-white"
                         placeholder="First name"
                         required
@@ -150,6 +167,7 @@ const Hero = () => {
                       <input
                         type="text"
                         id="lastName"
+                        name="lastName"
                         className="bg-white text-darkmode text-base rounded-lg dark:bg-darkmode block w-full p-2.5 dark:placeholder:gray-400 dark:text-white focus:outline-0 focus:ring-1 focus:ring-secondary dark:focus:ring-white"
                         placeholder="Last name"
                         required
@@ -159,6 +177,7 @@ const Hero = () => {
                       <input
                         type="text"
                         id="email"
+                        name="email"
                         className="bg-white text-darkmode text-base rounded-lg block w-full p-2.5 dark:bg-darkmode dark:placeholder:gray-400 dark:text-white focus:outline-0 focus:ring-1 focus:ring-secondary dark:focus:ring-white"
                         placeholder="youremail@website.com"
                         required
@@ -168,6 +187,7 @@ const Hero = () => {
                       <input
                         type="text"
                         id="company"
+                        name="company"
                         className="bg-white text-darkmode text-base rounded-lg block w-full p-2.5 dark:bg-darkmode dark:placeholder:gray-400 dark:text-white focus:outline-0 focus:ring-1 focus:ring-secondary dark:focus:ring-white"
                         placeholder="Company Name"
                         required
@@ -176,6 +196,7 @@ const Hero = () => {
                     <div className="md:col-span-2 col-span-1">
                       <textarea
                         id="serviceArea"
+                        name="serviceArea"
                         rows={4}
                         className="bg-white block p-2.5 w-full text-base text-darkmode rounded-lg dark:bg-darkmode dark:placeholder:gray-400 dark:text-white focus:outline-0 focus:ring-1 focus:ring-secondary dark:focus:ring-white"
                         placeholder="Service area and zip code"
@@ -187,8 +208,9 @@ const Hero = () => {
                       <input
                         title="Terms and Conditions"
                         id="termsAndConditions"
+                        name="termsAndConditions"
                         type="checkbox"
-                        value=""
+                        value="accepted"
                         className="w-4 h-4 border border-gray-300 rounded-sm checked:accent-LightApricot bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:outline-0"
                         required
                       />

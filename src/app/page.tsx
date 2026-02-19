@@ -10,10 +10,13 @@ export const metadata: Metadata = {
   title: "Sustainable",
 };
 
-export default function Home() {
+type HomeProps = { searchParams: Promise<{ error?: string; booked?: string }> }
+
+export default async function Home({ searchParams }: HomeProps) {
+  const params = await searchParams
   return (
     <main>
-      <Hero/>
+      <Hero searchParams={params} />
       <BuildAmazing isSpace={true} />
       <WorkGrow/>
       <Preferred/>
