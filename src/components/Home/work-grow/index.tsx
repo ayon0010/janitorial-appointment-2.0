@@ -9,18 +9,17 @@ const WorkGrow = () => {
       <section className='bg-AliceBlue dark:bg-darklight py-20'>
         <div className='container'>
           <div className='grid md:grid-cols-2 grid-cols-1 gap-10'>
-            <div className=''>
-              <h2 className='text-secondary dark:text-white max-w-446'>
-                Work done by us to grow your revenue
+            <div className='mb-10'>
+              <h2 className='text-secondary dark:text-white max-w-[560px]'>
+                High-Quality Cleaning Leads for Offices, Commercial Spaces, and Janitorial Services
               </h2>
-              <p className='text-SlateBlue dark:text-darktext text-base font-normal py-9 max-w-408'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elited do
-                eiusmod tempor incididunt.
+              <p className='text-SlateBlue dark:text-darktext text-base font-normal py-7 max-w-408'>
+                Get pre-qualified cleaning leads that help your janitorial business grow quickly and efficiently.
               </p>
               <div className=''>
-                <Link href='/' className='btn inline-flex items-center gap-3'>
+                <Link href='/' className='btn inline-flex items-center gap-3 cursor-pointer'>
                   Get Started
-                  <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block"></i>
+                  <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block ml-1"></i>
                 </Link>
               </div>
             </div>
@@ -44,7 +43,9 @@ const WorkGrow = () => {
                     quality={100}
                     layout='responsive'
                     sizes='100vh'
+                    className='aspect-[556/449] object-cover'
                   />
+                  <div className='absolute w-full h-full bg-black/40 inset-0'></div>
                   <div className='absolute sm:top-10 top-6 sm:left-10 left-6 group'>
                     <Link
                       href={`/portfolio/${item.slug}`}

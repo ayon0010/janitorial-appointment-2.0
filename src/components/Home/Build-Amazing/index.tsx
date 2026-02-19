@@ -14,12 +14,10 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
               data-aos-delay='200'
               data-aos-duration='1000'>
               <h2 className='text-secondary dark:text-white max-w-420 pb-8'>
-                Build amazing websites and landing pages with ease using
-                Sustaniable
+                How Our Appointment Setting Delivers Ready-to-Close Commercial Cleaning Leads
               </h2>
               <p className='text-base font-normal text-SlateBlue dark:text-darktext max-w-408'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elited do
-                eiusmod tempor incididunt.
+                Our lead generation system delivers pre-qualified businesses actively seeking commercial cleaning services. Every appointment has a high chance of converting, saving you time and helping your janitorial company grow.
               </p>
               <div className='pt-6 flex flex-col gap-y-5'>
                 <div className='flex items-center gap-2'>
@@ -28,7 +26,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                     height='25'
                     viewBox='0 0 25 25'
                     fill='#F3FAFF'
-                    className='dark:fill-primary/20 fill-primary/20'
+                    className='dark:fill-primary/20 fill-primary/20 shrink-0 w-[25px] h-[25px]'
                     xmlns='http://www.w3.org/2000/svg'>
                     <circle cx='12.5' cy='12.5' r='12.5' />
                     <g clipPath='url(#clip0_7_836)'>
@@ -50,7 +48,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                   </svg>
 
                   <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
-                    Easy Drag & Drop
+                    Qualified Leads Only
                   </span>
                 </div>
                 <div className='flex items-center gap-2'>
@@ -59,7 +57,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                     height='25'
                     viewBox='0 0 25 25'
                     fill='#F3FAFF'
-                    className='dark:fill-primary/20 fill-primary/20'
+                    className='dark:fill-primary/20 fill-primary/20 shrink-0 w-[25px] h-[25px]'
                     xmlns='http://www.w3.org/2000/svg'>
                     <circle cx='12.5' cy='12.5' r='12.5' />
                     <g clipPath='url(#clip0_7_836)'>
@@ -81,7 +79,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                   </svg>
 
                   <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
-                    Powered by Elementor
+                    Time-Saving Process
                   </span>
                 </div>
                 <div className='flex items-center gap-2'>
@@ -90,7 +88,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                     height='25'
                     viewBox='0 0 25 25'
                     fill='#F3FAFF'
-                    className='dark:fill-primary/20 fill-primary/20'
+                    className='dark:fill-primary/20 fill-primary/20 shrink-0 w-[25px] h-[25px]'
                     xmlns='http://www.w3.org/2000/svg'>
                     <circle cx='12.5' cy='12.5' r='12.5' />
                     <g clipPath='url(#clip0_7_836)'>
@@ -112,14 +110,14 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                   </svg>
 
                   <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
-                    Create new sections
+                    Proven Results
                   </span>
                 </div>
               </div>
               <div className='mt-8'>
-                <Link href='/' className='btn inline-flex items-center gap-3'>
+                <Link href='/' className='btn inline-flex items-center gap-3 cursor-pointer'>
                   Get Started
-                  <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block"></i>
+                  <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block ml-1"></i>
                 </Link>
               </div>
             </div>

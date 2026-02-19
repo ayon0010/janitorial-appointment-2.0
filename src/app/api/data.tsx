@@ -1,128 +1,143 @@
 export const count = [
-    {
-        icon: "/images/counter/star.svg",
-        value: "4.86",
-        description: "Out of 5 stars from 3896 reviews on google platform",
-    },
-    {
-        icon: "/images/counter/admin.svg",
-        value: "364",
-        description: "Client testimonials received in the year 2021",
-    },
-    {
-        icon: "/images/counter/bag.svg",
-        value: "45M+",
-        description: "Revenue generated through new projects & marketing",
-    },
+  {
+    icon: "/images/counter/star.svg",
+    value: "4.86",
+    description: "Out of 5 stars from 98 reviews from cleaning companies",
+  },
+  {
+    icon: "/images/counter/admin.svg",
+    value: "124",
+    description: "Janitorial appointments generated per month",
+  },
+  {
+    icon: "/images/counter/bag.svg",
+    value: "35%",
+    description: "Appointment to contract conversion rate",
+  },
+];
+export const cardData = [
+  {
+    iconUrl: '/images/build-amazing/beautiful-design.svg',
+    title: 'IT Development',
+    description: 'We develop custom software solutions to meet your janitorial business needs.',
+    link: '/',
+  },
+  {
+    iconUrl: '/images/build-amazing/coded.svg',
+    title: 'Lead Generation',
+    description: 'We generate pre-qualified commercial cleaning leads for your janitorial company.',
+    link: '/',
+  },
+  {
+    iconUrl: '/images/build-amazing/amazing.svg',
+    title: 'Appointment Booking',
+    description: 'We book appointments for your janitorial company with businesses actively seeking cleaning services.',
+    link: '/',
+  },
+  {
+    iconUrl: '/images/build-amazing/beautiful-design.svg',
+    title: 'Follow-Up Support',
+    description: 'We provide ongoing support to help you convert leads into customers.',
+    link: '/',
+  },
 ];
 
-export const cardData = [
-    {
-      iconUrl: '/images/build-amazing/beautiful-design.svg',
-      title: 'Beautiful designs premade',
-      description: 'Lorem ipsum dolor sit amet, consect etur adipiscing',
-      link: '/',
-    },
-    {
-      iconUrl: '/images/build-amazing/coded.svg',
-      title: 'Coded with much care & notes',
-      description: 'Lorem ipsum dolor sit amet, consect etur adipiscing',
-      link: '/',
-    },
-    {
-      iconUrl: '/images/build-amazing/amazing.svg',
-      title: 'Amazing demos included',
-      description: 'Lorem ipsum dolor sit amet, consect etur adipiscing',
-      link: '/',
-    },
-    {
-      iconUrl: '/images/build-amazing/beautiful-design.svg',
-      title: 'Beautiful designs premade',
-      description: 'Lorem ipsum dolor sit amet, consect etur adipiscing',
-      link: '/',
-    },
-  ];
+export const boxData = [
+  {
+    src: '/images/work-grow/office-cleaning-leads.webp',
+    alt: 'work-grow',
+    title: 'Office Cleaning Leads',
+    slug: "office-cleaning-leads"
+  },
+  {
+    src: '/images/work-grow/medical-cleaning.jpg',
+    alt: 'work-grow',
+    title: 'Medical Cleaning Leads',
+    slug: "medical-cleaning-leads"
+  },
+  {
+    src: '/images/work-grow/day-care-cleaning-leads.jpg',
+    alt: 'work-grow',
+    title: 'Day care cleaning leads',
+    slug: "day-care-cleaning-leads"
+  },
+  {
+    src: '/images/work-grow/illustration.jpg',
+    alt: 'work-grow',
+    title: 'Lying on arrow concept illustration',
+    slug: "portfolio-4"
+  },
+  {
+    src: '/images/work-grow/financial-image.jpg',
+    alt: 'work-grow',
+    title: 'Financial data concept illustration',
+    slug: "portfolio-5"
+  },
+];
 
-  export const boxData = [
-    {
-      src: '/images/work-grow/mobile-application.jpg',
-      alt: 'work-grow',
-      title: 'Apex Mobile Application Development',
-      slug: "portfolio-1"
-    },
-    {
-      src: '/images/work-grow/weby-dashboard-design.jpg',
-      alt: 'work-grow',
-      title: 'Weby Dashboard Design',
-      slug: "portfolio-2"
-    },
-    {
-      src: '/images/work-grow/frontend-development.jpg',
-      alt: 'work-grow',
-      title: 'Frontend Development',
-      slug: "portfolio-3"
-    },
-    {
-      src: '/images/work-grow/illustration.jpg',
-      alt: 'work-grow',
-      title: 'Lying on arrow concept illustration',
-      slug: "portfolio-4"
-    },
-    {
-      src: '/images/work-grow/financial-image.jpg',
-      alt: 'work-grow',
-      title: 'Financial data concept illustration',
-      slug: "portfolio-5"
-    },
-  ];
+export const accordionData = [
+  {
+    title: "How do you generate commercial cleaning appointments?",
+    content:
+      "We use a targeted outreach and qualification system to identify businesses actively looking for commercial cleaning services. Our team contacts decision-makers, pre-qualifies their needs, and schedules confirmed appointments directly on your calendar.",
+  },
+  {
+    title: "Are the janitorial leads exclusive to my company?",
+    content:
+      "Yes. Every booked commercial cleaning appointment is exclusive to your janitorial company. We do not resell or distribute the same lead to multiple cleaning providers.",
+  },
+  {
+    title: "What qualifies as a commercial cleaning appointment?",
+    content:
+      "A qualified appointment means the business has confirmed interest in janitorial services, meets your target criteria (industry, size, location), and agrees to a scheduled meeting with your team.",
+  },
+  {
+    title: "How long does it take to start receiving appointments?",
+    content:
+      "Most janitorial companies begin receiving booked appointments within 2–4 weeks, depending on their market, location, and targeting strategy.",
+  },
+  {
+    title: "Do I need to do cold calling or outreach?",
+    content:
+      "No. We handle all outreach, screening, and scheduling. Your team simply attends the booked appointment and focuses on closing the contract.",
+  },
+  {
+    title: "What types of businesses do you target?",
+    content:
+      "We target offices, medical facilities, warehouses, retail stores, and other commercial properties actively seeking reliable janitorial services in your service area.",
+  },
+  {
+    title: "What happens if an appointment does not show up?",
+    content:
+      "If a confirmed appointment does not attend, we review the situation and may offer a replacement depending on the terms of our agreement.",
+  },
+  {
+    title: "How do I get started?",
+    content:
+      "Simply book a free strategy call. We’ll review your goals, analyze your market, and explain how we can start delivering qualified commercial cleaning appointments for your janitorial company.",
+  },
+];
 
- export const accordionData = [
-    {
-      title: "How do I figure out what to learn?",
-      content:
-        "The most important thing is that you want to learn something that interests you, because once you start learning, you’ll be with this topic for a while. Choosing something just because it’s popular or what others are doing isn’t the way to go because if you don’t have a true interest in it, you’ll lose the motivation to learn! Spend some time seriously looking into the different tech career paths before choosing one to go down.",
-    },
-    {
-      title: "Which programming language is the best to learn?",
-      content:
-        "I usually tell most people to start by learning HTML and CSS, then move into learning JavaScript. The reason is that JavaScript is used everywhere: frontend, backend, and even to build mobile apps. It has many use cases, which is why I think it’s smart to learn.",
-    },
-    {
-      title: "Is it possible to do both graphic design and coding?",
-      content:
-        "If you have an interest in coding and graphic design, then there’s nothing to say you shouldn’t learn skills in both areas. They often work hand-in-hand, so having knowledge and skills in both areas could be desirable for certain career paths. You could also think about pursuing something in between like UI design, which is a very in-demand career right now!",
-    },
-    {
-      title: "Should I learn Python 2 or Python 3?",
-      content:
-        "Now, in 2020, it’s a no-brainer: Python 3 is definitely the way to go. There are still some situations where picking up Python 2 might be advantageous, or you may just want to learn a little of the history and the differences between Python 2 and 3 for curiosity’s sake, but job-wise, Python 3 is the clear winner.",
-    },
-    {
-      title: "Should I learn skills in several areas?",
-      content:
-        "Personally, I’d say choose a path and stick to it! Learning too many things at once will slow you down. Here are a few ideas of things you can choose to focus on, and a little bit about each one.",
-    },
-  ];
 
-  export const sections = {
-    features: [
-      { name: 'Online Payments', href: '/' },
-      { name: 'Financial Projections', href: '/' },
-      { name: 'Bookkeeping', href: '/' },
-      { name: 'Banking', href: '/' },
-    ],
-    resources: [
-      { name: 'Documentation', href: '/' },
-      { name: 'Integrations', href: '/' },
-      { name: 'API Reference', href: '/' },
-      { name: 'Support', href: '/' },
-      { name: 'Help', href: '/' },
-    ],
-    platform: [
-      { name: 'Infrastructure', href: '/' },
-      { name: 'Certifications', href: '/' },
-      { name: 'Licenses', href: '/' },
-      { name: 'Terms and conditions', href: '/' },
-      { name: 'Legal', href: '/' },
-    ],
-  };
+export const sections = {
+  features: [
+    { name: 'Online Payments', href: '/' },
+    { name: 'Financial Projections', href: '/' },
+    { name: 'Bookkeeping', href: '/' },
+    { name: 'Banking', href: '/' },
+  ],
+  resources: [
+    { name: 'Documentation', href: '/' },
+    { name: 'Integrations', href: '/' },
+    { name: 'API Reference', href: '/' },
+    { name: 'Support', href: '/' },
+    { name: 'Help', href: '/' },
+  ],
+  platform: [
+    { name: 'Infrastructure', href: '/' },
+    { name: 'Certifications', href: '/' },
+    { name: 'Licenses', href: '/' },
+    { name: 'Terms and conditions', href: '/' },
+    { name: 'Legal', href: '/' },
+  ],
+};

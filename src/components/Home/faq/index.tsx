@@ -16,7 +16,7 @@ const FaqQuestion = () => {
 
   return (
     <>
-      <section className='dark:bg-darkmode pt-40 pb-20'>
+      <section className='dark:bg-darkmode pt-20 pb-20'>
         <div className='container'>
           <div>
             <div className='flex flex-col gap-y-8'>
@@ -37,9 +37,9 @@ const FaqQuestion = () => {
                       <span className='rounded-full rotate-0 group-active:rotate-180 transition-width opacity-90'>
                         {activeIndex === index ? (
                           <svg
-                            className='icon-minus'
-                            width='14'
-                            height='2'
+                            className='icon-minus shrink-0 w-[25px] h-[25px]'
+                            width='25'
+                            height='25'
                             viewBox='0 0 14 2'
                             fill='none'
                             xmlns='http://www.w3.org/2000/svg'>
@@ -50,9 +50,9 @@ const FaqQuestion = () => {
                           </svg>
                         ) : (
                           <svg
-                            className='icon-plus'
-                            width='14'
-                            height='14'
+                            className='icon-plus shrink-0 w-[25px] h-[25px]'
+                            width='25'
+                            height='25'
                             viewBox='0 0 14 14'
                             fill='none'
                             xmlns='http://www.w3.org/2000/svg'>

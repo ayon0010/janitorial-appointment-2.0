@@ -119,7 +119,7 @@
   }
 
   h1 {
-    @apply md:text-[52px] md:leading-[3.75rem] text-[40px] leading-[3rem] font-bold;
+    @apply md:text-[44px] md:leading-[3.75rem] text-[32px] leading-[3rem] font-bold;
   }
 
   h2 {
@@ -128,6 +128,16 @@
 
   select {
     @apply appearance-none bg-[url('/images/contact/dropdown.svg')] bg-no-repeat bg-[90%_50%];
+  }
+
+  /* Plan list icons: fixed size so sentence length doesn't affect SVG */
+  .shadow-plan_shadwo ul li > svg,
+  .shadow-plan_shadwo ul li > span:first-child > svg {
+    width: 25px !important;
+    height: 25px !important;
+    min-width: 25px !important;
+    min-height: 25px !important;
+    flex-shrink: 0;
   }
 }
 
@@ -211,7 +221,7 @@
   @apply lg:inline-block hidden;
 }
 .banner-shap::after {
-  @apply content-[''] absolute left-0 w-full h-[18.75rem] bg-primary -bottom-[5.1875rem];
+  @apply content-[''] absolute left-0 w-full h-[18.75rem] bg-primary -bottom-[5.1875rem] z-0;
   clip-path: ellipse(56% 50%);
 }
 @media only screen and (max-width: 768px) {
