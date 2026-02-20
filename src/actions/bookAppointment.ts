@@ -1,6 +1,12 @@
 'use server'
 
+import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
+
+/** Next.js redirect() throws; rethrow so it isn't treated as a real error in catch. */
+function isRedirectError(e: unknown): boolean {
+  return typeof e === 'object' && e !== null && 'digest' in e && String((e as { digest?: string }).digest).startsWith('NEXT_REDIRECT')
+}
 
 export async function bookAppointment(formData: FormData): Promise<void> {
   const firstName = formData.get('firstName')
@@ -9,8 +15,6 @@ export async function bookAppointment(formData: FormData): Promise<void> {
   const company = formData.get('company')
   const serviceArea = formData.get('serviceArea')
   const termsAndConditions = formData.get('termsAndConditions') === 'accepted'
-
-  console.log(firstName, lastName, email, company, serviceArea, termsAndConditions)
 
   // Validate
   if (!firstName || !lastName || !email || !company) {
@@ -22,11 +26,19 @@ export async function bookAppointment(formData: FormData): Promise<void> {
   }
 
   try {
-    // Process the booking (save to database, send email, etc.)
-    // await db.appointment.create({ data: { firstName, lastName, email, company, serviceArea } })
-    // await sendEmail({ to: email, subject: 'Appointment Confirmation' })
+    await prisma.message.create({
+      data: {
+        firstName: firstName as string,
+        lastName: lastName as string,
+        email: email as string,
+        company: company as string,
+        serviceArea: (serviceArea ?? '') as string,
+        termsAndConditions,
+      },
+    })
     redirect('/?booked=1')
   } catch (error) {
+    if (isRedirectError(error)) throw error
     console.error('Booking error:', error)
     redirect('/?error=' + encodeURIComponent('Failed to book appointment. Please try again.'))
   }
