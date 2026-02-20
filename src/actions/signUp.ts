@@ -23,7 +23,7 @@ export async function signUp(formData: FormData): Promise<void> {
   })
 
   if (!validation.success) {
-    redirect('/signup?error=' + encodeURIComponent(validation.error.errors[0].message))
+    redirect('/signup?error=' + encodeURIComponent(validation.error.message))
   }
 
   // Check if user already exists
