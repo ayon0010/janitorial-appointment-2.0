@@ -2,110 +2,106 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const ContactForm = () => {
+const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { contactEmail?: string }) => {
   return (
     <>
       <section className='dark:bg-darkmode pt-0 md:pb-24 pb-10'>
         <div className='container'>
           <div className='grid lg:grid-cols-12 grid-cols-1 md:gap-20 gap-10'>
             <div className='md:col-span-6 col-span-1'>
-              <h2 className='max-w-277 sm:text-[40px] sm:leading-[3rem] text-[28px] leading-[2.25rem] font-bold text-secondary dark:text-white mb-9'>
-                Get Online Consultation
+              <h2 className='max-w-277 sm:text-[40px] sm:leading-[3rem] text-[28px] leading-[2.25rem] font-bold text-secondary dark:text-white mb-4'>
+                Send us a message
               </h2>
+              <p className='text-SlateBlue dark:text-darktext text-base mb-6'>
+                Prefer email? Write to us at{' '}
+                <Link href={`mailto:${contactEmail}`} className='text-primary dark:text-lightPrimary font-medium hover:underline break-all'>
+                  {contactEmail}
+                </Link>
+                — we reply to every message.
+              </p>
               <form className='flex flex-wrap w-full m-auto justify-between'>
                 <div className='sm:flex gap-3 w-full'>
                   <div className='mx-0 my-2.5 flex-1'>
                     <label
-                      htmlFor='first-name'
+                      htmlFor='company-name'
                       className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      First Name*
+                      Company name*
                     </label>
                     <input
-                      id='first-name'
-                      className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine dark:border-dark_border border-solid dark:text-white  dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
+                      id='company-name'
+                      name='companyName'
+                      placeholder='Your company name'
+                      className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
                       type='text'
+                      required
                     />
                   </div>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='last-name'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      Last Name*
-                    </label>
-                    <input
-                      id='last-name'
-                      className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white  dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
-                      type='text'
-                    />
-                  </div>
-                </div>
-                <div className='sm:flex gap-3 w-full'>
                   <div className='mx-0 my-2.5 flex-1'>
                     <label
                       htmlFor='email'
                       className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      Email address*
+                      Email*
                     </label>
                     <input
                       id='email'
+                      name='email'
                       type='email'
-                      className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white  dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
-                    />
-                  </div>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='Specialist'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      Specialist*
-                    </label>
-                    <select
-                      id='Specialist'
-                      className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:text-white border-solid dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary dark:border-dark_border focus:border-solid focus:outline-0'>
-                      <option value=''>Choose a specialist</option>
-                      <option value='Baking &amp; Pastry'>
-                        Choose a specialist
-                      </option>
-                      <option value='Exotic Cuisine'>Exotic Cuisine</option>
-                      <option value='French Desserts'>French Desserts</option>
-                      <option value='Seafood &amp; Wine'>
-                        Choose a specialist
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div className='sm:flex gap-3 w-full'>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='date'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      Date*
-                    </label>
-                    <input
-                      id='date'
-                      className='w-full text-base px-4 rounded-lg  py-2.5 outline-hidden dark:text-white dark:bg-darkmode border-BorderLine border-solid border transition-all duration-500 focus:border-primary dark:focus:border-primary dark:border-dark_border focus:border-solid focus:outline-0'
-                      type='date'
-                    />
-                  </div>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='time'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      Time*
-                    </label>
-                    <input
-                      id='time'
-                      className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine outline-hidden dark:text-white dark:bg-darkmode border-solid border transition-all duration-500 focus:border-primary dark:focus:border-primary dark:border-dark_border focus:border-solid focus:outline-0'
-                      type='time'
+                      placeholder='you@company.com'
+                      className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
+                      required
                     />
                   </div>
                 </div>
                 <div className='mx-0 my-2.5 w-full'>
-                  <Link
-                    href='#'
-                    className='bg-primary rounded-lg text-white py-4 px-8 mt-4 inline-block hover:bg-blue-700'
-                    type='submit'>
-                    Make an appointment
-                  </Link>
+                  <label
+                    htmlFor='contact-number'
+                    className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
+                    Contact number*
+                  </label>
+                  <input
+                    id='contact-number'
+                    name='contactNumber'
+                    type='tel'
+                    placeholder='e.g. +1 234 567 8900'
+                    className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
+                    required
+                  />
+                </div>
+                <div className='mx-0 my-2.5 w-full'>
+                  <label
+                    htmlFor='service-zip-codes'
+                    className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
+                    Service zip codes*
+                  </label>
+                  <textarea
+                    id='service-zip-codes'
+                    name='serviceZipCodes'
+                    rows={4}
+                    placeholder='Enter zip codes you serve (one per line or comma-separated)'
+                    className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0 resize-y min-h-[100px]'
+                    required
+                  />
+                </div>
+                <div className='mx-0 my-2.5 w-full'>
+                  <label
+                    htmlFor='dnc-list'
+                    className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
+                    DNC list <span className='text-SlateBlue/70 dark:text-darktext/70'>(optional)</span>
+                  </label>
+                  <textarea
+                    id='dnc-list'
+                    name='dncList'
+                    rows={4}
+                    placeholder='Do Not Call list — numbers or addresses to exclude (optional)'
+                    className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0 resize-y min-h-[100px]'
+                  />
+                </div>
+                <div className='mx-0 my-2.5 w-full'>
+                  <button
+                    type='submit'
+                    className='bg-primary rounded-lg text-white py-4 px-8 mt-4 inline-block hover:bg-blue-700 transition-colors'>
+                    Send message
+                  </button>
                 </div>
               </form>
             </div>

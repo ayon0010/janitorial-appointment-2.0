@@ -4,25 +4,25 @@ import Location from "@/components/Contact/OfficeLocation";
 import React from "react";
 import HeroSub from "@/components/SharedComponent/HeroSub";
 import { Metadata } from "next";
+
 export const metadata: Metadata = {
-    title: "Contact | Sustainable",
+    title: "Contact | Janitorial Appointments",
+    description: "Get in touch by email at contact@janitorialappointment.com. We're here to help with commercial cleaning leads.",
 };
 
+const CONTACT_EMAIL = "contact@janitorialappointment.com";
+const FACEBOOK_URL = "https://www.facebook.com/commercialcleaningleads/";
+
 const page = () => {
-  const breadcrumbLinks = [
-    { href: "/", text: "Home" },
-    { href: "/contact", text: "Contact" },
-  ];
   return (
     <>
       <HeroSub
         title="Contact Us"
-        description=""
-
+        description="Email us at contact@janitorialappointment.com — we'd love to hear from you. Get commercial cleaning leads and support."
       />
-      <ContactInfo />
-      <ContactForm />
-      <Location />
+      <ContactInfo contactEmail={CONTACT_EMAIL} facebookUrl={FACEBOOK_URL} />
+      <ContactForm contactEmail={CONTACT_EMAIL} />
+      <Location contactEmail={CONTACT_EMAIL} facebookUrl={FACEBOOK_URL} />
     </>
   );
 };
