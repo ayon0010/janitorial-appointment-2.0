@@ -13,13 +13,14 @@ enum UserRole {
 }
 
 model User {
-  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
   companyName    String
-  email          String     @unique
+  email          String         @unique
   hashedPassword String
   serviceState   String
-  roles          UserRole[] @default([USER])
+  roles          UserRole[]     @default([USER])
   city           String[]
+  verifications  Verification[]
 }
 
 model Message {
@@ -32,4 +33,12 @@ model Message {
   termsAndConditions Boolean
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model Verification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
 }
