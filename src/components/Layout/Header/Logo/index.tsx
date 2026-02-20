@@ -1,28 +1,23 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
+import janitorialLogo from '../../../../../public/images/logo/Janitorial-appointment-logo.avif'
 
 const Logo: React.FC = () => {
-
   return (
-    <Link href="/" className='sm:max-w-56 max-w-44'>
-      <Image
-        src="/images/logo/logo-dark.svg"
-        alt="logo"
-        width={160}
-        height={50}
-        style={{ width: 'auto', height: 'auto' }}
-        quality={100}
-        className='dark:hidden'
-      />
-      <Image
-        src="/images/logo/logo.svg"
-        alt="logo"
-        width={160}
-        height={50}
-        style={{ width: 'auto', height: 'auto' }}
-        quality={100}
-        className='dark:block hidden'
-      />
+    <Link href="/" className='flex items-center gap-3'>
+      <div className='shrink-0 relative'>
+        <Image
+          src={janitorialLogo}
+          alt="Janitorial Appointments Icon"
+          width={48}
+          height={48}
+          className="object-contain"
+          unoptimized
+        />
+      </div>
+      <span className='text-2xl sm:text-3xl font-bold text-white dark:text-white'>
+        Janitorial Appointments
+      </span>
     </Link>
   );
 };

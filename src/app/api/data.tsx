@@ -141,3 +141,38 @@ export const sections = {
     { name: 'Legal', href: '/' },
   ],
 };
+
+export const customerReviews = [
+  {
+    id: 1,
+    name: 'Sarah Johnson',
+    company: 'CleanPro Services',
+    rating: 5,
+    comment: 'Outstanding service! We\'ve received 15 qualified appointments in just 2 months. The leads are pre-screened and ready to close. Highly recommend!',
+    avatar: '/images/reviews/avatar-1.jpg',
+  },
+  {
+    id: 2,
+    name: 'Michael Chen',
+    company: 'Elite Janitorial Solutions',
+    rating: 5,
+    comment: 'This service has transformed our business. No more cold calling - just quality appointments with businesses that actually need our services.',
+    avatar: '/images/reviews/avatar-2.jpg',
+  },
+  {
+    id: 3,
+    name: 'Emily Rodriguez',
+    company: 'Premier Cleaning Co.',
+    rating: 5,
+    comment: 'The best investment we\'ve made for lead generation. The conversion rate is impressive, and the support team is always helpful.',
+    avatar: '/images/reviews/avatar-3.jpg',
+  },
+  {
+    id: 4,
+    name: 'David Thompson',
+    company: 'Commercial Clean Masters',
+    rating: 5,
+    comment: 'We\'ve doubled our client base in 6 months thanks to the consistent flow of qualified appointments. Worth every penny!',
+    avatar: '/images/reviews/avatar-4.jpg',
+  },
+];

@@ -23,15 +23,20 @@ const Footer: FC = () => {
       <div className='bg-secondary md:pb-20 pb-8'>
         <div className='container'>
           <div className='flex items-center justify-between pb-16 border-b border-dark_border border-solid'>
-            <Link href='/'>
-              <Image
-                src='/images/footer/ftr-logo.svg'
-                alt='Company logo'
-                width={160}
-                height={50}
-                style={{ width: 'auto', height: 'auto' }}
-                quality={100}
-              />
+            <Link href='/' className='flex items-center gap-2'>
+              <div className='shrink-0 relative'>
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/512/2933/2933245.png"
+                  alt="Janitorial Appointments Icon"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+              <span className='text-xl sm:text-2xl font-bold text-white'>
+                Janitorial Appointments
+              </span>
             </Link>
             <div>
               <ul className='flex items-center gap-5'>

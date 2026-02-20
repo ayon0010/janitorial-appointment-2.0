@@ -7,6 +7,7 @@ import Image from 'next/image'
 import HeaderLink from '../Header/Navigation/HeaderLink'
 import MobileHeaderLink from '../Header/Navigation/MobileHeaderLink'
 import { useTheme } from 'next-themes'
+import janitorialLogo from '../../../../public/images/logo/Janitorial-appointment-logo.avif'
 
 const Header: React.FC = () => {
   const pathUrl = usePathname()
@@ -55,15 +56,20 @@ const Header: React.FC = () => {
           : 'shadow-none'
           }`}>
         <div className='container mx-auto flex items-center justify-between p-6'>
-          <Link href='/'>
-            <Image
-              src='/images/logo/logo.svg'
-              alt='logo'
-              width={160}
-              height={50}
-              style={{ width: 'auto', height: 'auto' }}
-              quality={100}
-            />
+          <Link href='/' className='flex items-center gap-2'>
+            <div className='shrink-0 relative'>
+              <Image
+                src={janitorialLogo}
+                alt="Janitorial Appointments Icon"
+                width={40}
+                height={40}
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+            <span className='text-xl sm:text-2xl font-bold text-white dark:text-white'>
+              Janitorial Appointments
+            </span>
           </Link>
           <ul className='hidden lg:flex grow items-center justify-center gap-6'>
             {headerData.map((item, index) => (

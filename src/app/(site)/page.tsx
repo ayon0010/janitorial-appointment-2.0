@@ -5,6 +5,8 @@ import BuildAmazing from '@/components/Home/Build-Amazing'
 import WorkGrow from '@/components/Home/work-grow';
 import Preferred from '@/components/Home/preferred-plan';
 import Counter from '@/components/Home/Counter';
+import CustomerReviews from '@/components/Home/CustomerReviews';
+import ConnectWithUs from '@/components/Home/ConnectWithUs';
 import FaqQuestion from '@/components/Home/faq';
 export const metadata: Metadata = {
   title: "Sustainable",
@@ -21,6 +23,8 @@ export default async function Home({ searchParams }: HomeProps) {
       <WorkGrow/>
       <Preferred/>
       <Counter/>
+      <CustomerReviews/>
+      <ConnectWithUs/>
       <FaqQuestion/>
     </main>
   )
