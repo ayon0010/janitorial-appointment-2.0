@@ -2,15 +2,17 @@ import { HeaderItem } from "@/types/menu";
 
 export const headerData: HeaderItem[] = [
   { label: "Home", href: "/" },
+  { label: "Exclusive Leads", href: "/commercial-cleaning-leads" },
+  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
-  {
-    label: "Portfolio",
-    href: "/portfolio",
-    submenu: [
-      { label: "Portfolio list", href: "/portfolio" },
-      { label: "Portfolio details", href: "/portfolio/portfolio-1" },
-    ],
-  },
+  // {
+  //   label: "Portfolio",
+  //   href: "/portfolio",
+  //   submenu: [
+  //     { label: "Portfolio list", href: "/portfolio" },
+  //     { label: "Portfolio details", href: "/portfolio/portfolio-1" },
+  //   ],
+  // },
   {
     label: "Blog",
     href: "#",
@@ -20,5 +22,5 @@ export const headerData: HeaderItem[] = [
     ],
   },
   { label: "Contact", href: "/contact" },
-  { label: "Docs", href: "/documentation" },
+  // { label: "Docs", href: "/documentation" },
 ];

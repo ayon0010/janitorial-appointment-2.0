@@ -17,7 +17,7 @@ const WorkGrow = () => {
                 Get pre-qualified cleaning leads that help your janitorial business grow quickly and efficiently.
               </p>
               <div className=''>
-                <Link href='/' className='btn inline-flex items-center gap-3 cursor-pointer'>
+                <Link href='/contact' className='btn inline-flex items-center gap-3 cursor-pointer'>
                   Get Started
                   <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block ml-1"></i>
                 </Link>

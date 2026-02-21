@@ -115,7 +115,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                 </div>
               </div>
               <div className='mt-8'>
-                <Link href='/' className='btn inline-flex items-center gap-3 cursor-pointer'>
+                <Link href='/contact' className='btn inline-flex items-center gap-3 cursor-pointer'>
                   Get Started
                   <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block ml-1"></i>
                 </Link>
@@ -140,7 +140,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                       {card.description}
                     </p>
                     <Link
-                      href={card.link}
+                      href='/contact'
                       className='text-primary text-base font-normal flex items-center gap-3 transition-all group'>
                       Get Started
                       <i

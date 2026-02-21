@@ -1,9 +1,9 @@
 'use client'
 import React, { FC } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { sections } from '../../../app/api/data'
 import { usePathname } from 'next/navigation'
+import Logo from '../Header/Logo'
 
 const footerTitles = {
   features: 'Features',
@@ -17,27 +17,12 @@ const Footer: FC = () => {
 
   return (
     <footer
-      className={`relative dark:bg-darkmode bg-[url('/images/footer/ftr-bg.png')] bg-cover bg-no-repeat w-full h-full ${
-        pathname === '/' ? 'pt-72 z-3' : 'pt-32'
-      }`}>
+      className={`relative dark:bg-darkmode bg-[url('/images/footer/ftr-bg.png')] bg-cover bg-no-repeat w-full h-full ${pathname === '/' ? 'pt-72 z-3' : 'pt-32'
+        }`}>
       <div className='bg-secondary md:pb-20 pb-8'>
         <div className='container'>
           <div className='flex items-center justify-between pb-16 border-b border-dark_border border-solid'>
-            <Link href='/' className='flex items-center gap-2'>
-              <div className='shrink-0 relative'>
-                <Image
-                  src="https://cdn-icons-png.flaticon.com/512/2933/2933245.png"
-                  alt="Janitorial Appointments Icon"
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                  unoptimized
-                />
-              </div>
-              <span className='text-xl sm:text-2xl font-bold text-white'>
-                Janitorial Appointments
-              </span>
-            </Link>
+            <Logo />
             <div>
               <ul className='flex items-center gap-5'>
                 <li>

@@ -19,7 +19,7 @@ const CardBox = () => {
                   eiusmod tempor incididunt.
                 </p>
                 <div className=''>
-                  <Link href='/' className='btn'>
+                  <Link href='/contact' className='btn'>
                     <div className='flex items-center gap-3'>
                       <p>Get Started</p>
                       <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block"></i>

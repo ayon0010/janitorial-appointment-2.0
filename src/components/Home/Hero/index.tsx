@@ -1,5 +1,6 @@
 import { bookAppointment } from '@/actions/bookAppointment'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type HeroProps = { searchParams?: { error?: string; booked?: string } }
 
@@ -23,12 +24,12 @@ const Hero = ({ searchParams }: HeroProps) => {
                   Get Qualified Cleaning Appointments for Your Janitorial
                   Business
                 </h1>
-                <button
-                  type="button"
-                  className="bg-white text-base font-normal text-primary py-3 px-12 rounded-lg mb-16 mt-8 transition-all duration-0.4s cursor-pointer hover:bg-secondary hover:text-white"
+                <Link
+                  href="/contact"
+                  className="bg-white text-base font-normal text-primary py-3 px-12 rounded-lg mb-16 mt-8 transition-all duration-0.4s cursor-pointer hover:bg-secondary hover:text-white inline-block"
                 >
                   Get Started
-                </button>
+                </Link>
                 <div className="flex items-center mb-8">
                   <svg
                     className="w-4 h-4 text-LightApricot ms-1"
