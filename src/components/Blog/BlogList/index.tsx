@@ -1,9 +1,13 @@
 import React from 'react'
 import BlogCard from '@/components/SharedComponent/Blog/blogCard'
-import { getAllPosts } from '@/utils/markdown'
+import { Blog } from '@/types/blog'
 
-const BlogList: React.FC = () => {
-  const posts = getAllPosts(['title', 'date', 'excerpt', 'coverImage', 'slug'])
+type BlogListProps = {
+  posts?: Blog[]
+}
+
+const BlogList: React.FC<BlogListProps> = ({ posts: postsProp }) => {
+  const posts = postsProp ?? []
 
   return (
     <section

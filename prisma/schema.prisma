@@ -13,14 +13,15 @@ enum UserRole {
 }
 
 model User {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
-  companyName    String
-  email          String         @unique
-  hashedPassword String
-  serviceState   String
-  roles          UserRole[]     @default([USER])
-  city           String[]
-  verifications  Verification[]
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  companyName     String
+  email           String         @unique
+  hashedPassword  String
+  serviceState    String
+  serviceStates   String[]       @default([]) // extra states user serves
+  roles           UserRole[]     @default([USER])
+  city            String[]
+  verifications   Verification[]
 }
 
 model Message {
@@ -41,4 +42,71 @@ model Verification {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
+}
+
+model Lead {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Basic Info
+  title        String
+  location     String
+  city         String?
+  state        String?
+  facilityType String?
+
+  // Lead Evaluation
+  leadQuality           LeadQuality
+  opportunityLevel      String?
+  conversionProbability String?
+
+  // Cleaning Situation
+  cleaningStatus   String?
+  currentHelp      String?
+  desiredFrequency String?
+  decisionMaker    String?
+  primaryContact   String?
+
+  // Facility Snapshot
+  upstairsRooms         Int?
+  downstairsDescription String?
+  hasConferenceRooms    Boolean?
+  hasPrivateOffices     Boolean?
+
+  // Walkthrough
+  walkthroughScheduled Boolean   @default(false)
+  walkthroughDate      DateTime?
+  walkthroughNotes     String?
+
+  // Buying Signals & Risks (stored as arrays)
+  buyingSignals String[]
+  riskFactors   String[]
+
+  // Financial Potential
+  estimatedMinValue Int?
+  estimatedMaxValue Int?
+
+  // Analysis
+  opportunityAnalysis String?
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum LeadQuality {
+  LOW
+  MODERATE
+  HIGH
+}
+
+model Blog {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  slug       String   @unique
+  excerpt    String?
+  content    String?
+  coverImage String?
+  date       DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

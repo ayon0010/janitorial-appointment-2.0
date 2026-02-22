@@ -5,22 +5,9 @@ export const headerData: HeaderItem[] = [
   { label: "Exclusive Leads", href: "/commercial-cleaning-leads" },
   { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
-  // {
-  //   label: "Portfolio",
-  //   href: "/portfolio",
-  //   submenu: [
-  //     { label: "Portfolio list", href: "/portfolio" },
-  //     { label: "Portfolio details", href: "/portfolio/portfolio-1" },
-  //   ],
-  // },
   {
     label: "Blog",
-    href: "#",
-    submenu: [
-      { label: "Blog list", href: "/blog" },
-      { label: "Blog details", href: "/blog/blog_1" },
-    ],
+    href: "/blog",
   },
   { label: "Contact", href: "/contact" },
-  // { label: "Docs", href: "/documentation" },
 ];

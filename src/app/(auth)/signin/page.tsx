@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginFormSchema } from '@/components/schema/LoginSchema'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { z } from 'zod'
 import Swal from "sweetalert2"
@@ -16,6 +16,8 @@ export default function SignInPage() {
     const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const callbackUrl = searchParams.get('callbackUrl') || '/'
 
     const {
         register,
@@ -57,7 +59,7 @@ export default function SignInPage() {
                     text: 'Login successful',
                     icon: 'success',
                 })
-                router.push('/')
+                router.push(callbackUrl)
                 router.refresh()
             }
         } catch (err) {

@@ -50,18 +50,18 @@ export default async function CommercialCleaningLeadsStatePage({
         <div className="container">
           <div className="max-w-3xl mx-auto space-y-6 text-SlateBlue dark:text-darktext text-base md:text-lg">
             <p>
-              Looking for <strong className="text-secondary dark:text-white">commercial cleaning leads in {stateName}</strong>? 
-              We generate exclusive janitorial appointments for cleaning companies serving {stateName}. 
+              Looking for <strong className="text-secondary dark:text-white">commercial cleaning leads in {stateName}</strong>?
+              We generate exclusive janitorial appointments for cleaning companies serving {stateName}.
               Every lead is pre-qualified and ready for a scheduled meeting — no cold calling required.
             </p>
             <p>
-              Our team contacts businesses actively seeking janitorial services in your area, 
-              confirms their needs, and books appointments directly on your calendar. 
-              You get office cleaning leads, medical cleaning leads, and other commercial opportunities 
+              Our team contacts businesses actively seeking janitorial services in your area,
+              confirms their needs, and books appointments directly on your calendar.
+              You get office cleaning leads, medical cleaning leads, and other commercial opportunities
               that match your service area and preferences.
             </p>
             <p>
-              Ready to grow your {stateName} client base? Choose a plan below and start receiving 
+              Ready to grow your {stateName} client base? Choose a plan below and start receiving
               qualified commercial cleaning appointments.
             </p>
           </div>
