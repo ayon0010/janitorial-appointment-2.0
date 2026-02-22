@@ -10,32 +10,24 @@ export const metadata: Metadata = {
   description: 'View and update your account details and service area.',
 }
 
-type AccountUser = {
-  companyName: string
-  email: string
-  serviceState: string
-  city: string[]
-  serviceStates?: string[]
-}
-
 export default async function AccountPage() {
   const session = await auth()
   if (!session?.user?.id) redirect('/signin?callbackUrl=/account')
 
-  const raw = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: {
       companyName: true,
       email: true,
       serviceState: true,
       city: true,
+      serviceStates: true,
+      dncList: true,
+      dncListFileUrl: true,
     },
   })
-  const user = raw as AccountUser | null
   if (!user) redirect('/signin')
-  const serviceStates: string[] = Array.isArray((raw as Record<string, unknown>).serviceStates)
-    ? (raw as Record<string, unknown>).serviceStates as string[]
-    : []
+  const serviceStates: string[] = user.serviceStates ?? []
 
   return (
     <>
@@ -101,11 +93,35 @@ export default async function AccountPage() {
                   </div>
                 </div>
               )}
+              {(user.dncList || user.dncListFileUrl) && (
+                <div className="rounded-xl bg-gray-50 dark:bg-white/5 p-4 mb-8">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-SlateBlue dark:text-darktext mb-2">
+                    DNC list
+                  </p>
+                  {user.dncList && (
+                    <p className="text-secondary dark:text-white font-medium text-sm mb-2">
+                      {user.dncList.split(/[\n,;]+/).filter(Boolean).length} text entries
+                    </p>
+                  )}
+                  {user.dncListFileUrl && (
+                    <a
+                      href={user.dncListFileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-sm font-medium text-primary hover:underline"
+                    >
+                      View / download DNC file
+                    </a>
+                  )}
+                </div>
+              )}
 
               <AccountForm
                 defaultServiceState={user.serviceState}
                 defaultServiceStates={serviceStates}
                 defaultCities={user.city ?? []}
+                defaultDncList={user.dncList ?? ''}
+                defaultDncListFileUrl={user.dncListFileUrl ?? null}
               />
             </div>
           </div>

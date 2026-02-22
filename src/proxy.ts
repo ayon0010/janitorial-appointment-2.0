@@ -29,9 +29,14 @@ export default auth(async function proxy(req) {
   // 🛡 Admin routes (auth + admin role)
   if (isAdminRoute) {
     if (!isLoggedIn || !isAdmin) {
-      const loginUrl = new URL("/signin", req.url);
-      loginUrl.searchParams.set("callbackUrl", pathName);
-      return NextResponse.redirect(loginUrl);
+      if (!isLoggedIn) {
+        const loginUrl = new URL("/signin", req.url);
+        loginUrl.searchParams.set("callbackUrl", pathName);
+        return NextResponse.redirect(loginUrl);
+      }
+      if (!isAdmin) {
+        return NextResponse.redirect(new URL("/unauthorized", req.url));
+      }
     }
   }
 

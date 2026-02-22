@@ -21,6 +21,8 @@ model User {
   serviceStates   String[]       @default([]) // extra states user serves
   roles           UserRole[]     @default([USER])
   city            String[]
+  dncList         String?        // Do Not Call list: raw text, one entry per line
+  dncListFileUrl  String?        // Cloudinary URL of uploaded DNC file (PDF, etc.)
   verifications   Verification[]
 }
 
