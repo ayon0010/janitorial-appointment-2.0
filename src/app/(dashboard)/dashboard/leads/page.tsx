@@ -1,12 +1,43 @@
 import { prisma } from '@/lib/prisma'
-import { format } from 'date-fns'
 import LeadUploadForm from './LeadUploadForm'
+import LeadTable from './LeadTable'
 
 export default async function LeadsPage() {
   const leads = await prisma.lead.findMany({
     orderBy: { createdAt: 'desc' },
     take: 100,
   })
+
+  const serializedLeads = leads.map((l) => ({
+    id: l.id,
+    title: l.title,
+    location: l.location,
+    city: l.city,
+    state: l.state,
+    facilityType: l.facilityType,
+    leadQuality: l.leadQuality,
+    opportunityLevel: l.opportunityLevel,
+    conversionProbability: l.conversionProbability,
+    cleaningStatus: l.cleaningStatus,
+    currentHelp: l.currentHelp,
+    desiredFrequency: l.desiredFrequency,
+    decisionMaker: l.decisionMaker,
+    primaryContact: l.primaryContact,
+    upstairsRooms: l.upstairsRooms,
+    downstairsDescription: l.downstairsDescription,
+    hasConferenceRooms: l.hasConferenceRooms,
+    hasPrivateOffices: l.hasPrivateOffices,
+    walkthroughScheduled: l.walkthroughScheduled,
+    walkthroughDate: l.walkthroughDate?.toISOString() ?? null,
+    walkthroughNotes: l.walkthroughNotes,
+    buyingSignals: l.buyingSignals,
+    riskFactors: l.riskFactors,
+    estimatedMinValue: l.estimatedMinValue,
+    estimatedMaxValue: l.estimatedMaxValue,
+    opportunityAnalysis: l.opportunityAnalysis,
+    createdAt: l.createdAt.toISOString(),
+    updatedAt: l.updatedAt.toISOString(),
+  }))
 
   return (
     <div>
@@ -23,53 +54,7 @@ export default async function LeadsPage() {
         {leads.length === 0 ? (
           <p className="p-8 text-SlateBlue dark:text-darktext">No leads yet. Upload above.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5">
-                  <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
-                    Title
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
-                    Location
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
-                    State
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
-                    Quality
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
-                    Date
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {leads.map((l) => (
-                  <tr
-                    key={l.id}
-                    className="border-b border-gray-100 dark:border-white/5 hover:bg-gray-50/50 dark:hover:bg-white/5"
-                  >
-                    <td className="px-4 py-3 text-sm text-secondary dark:text-white">
-                      {l.title}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
-                      {l.location}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
-                      {l.state ?? '—'}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
-                      {l.leadQuality}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
-                      {format(l.createdAt, 'dd MMM yyyy')}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <LeadTable leads={serializedLeads} />
         )}
       </div>
     </div>

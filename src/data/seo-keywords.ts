@@ -89,6 +89,24 @@ export const US_STATES = [
   "Wyoming",
 ] as const;
 
+// US state 2-letter codes (same order as US_STATES)
+export const US_STATE_CODES = [
+  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+] as const;
+
+export function stateToCode(stateName: string): string | undefined {
+  const i = US_STATES.findIndex((s) => s === stateName);
+  return i >= 0 ? US_STATE_CODES[i] : undefined;
+}
+
+/** Returns [fullName, code] for use in DB queries (state may be stored as either). */
+export function getStateQueryValues(stateName: string): string[] {
+  const code = stateToCode(stateName);
+  const values = [stateName];
+  if (code) values.push(code);
+  return values;
+}
+
 export function stateToSlug(state: string): string {
   return state.toLowerCase().replace(/\s+/g, "-");
 }

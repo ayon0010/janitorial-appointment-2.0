@@ -85,6 +85,85 @@ export async function createLeads(data: {
   return created.count
 }
 
+export type LeadUpdatePayload = {
+  title: string
+  location: string
+  city?: string
+  state?: string
+  facilityType?: string
+  leadQuality: 'LOW' | 'MODERATE' | 'HIGH'
+  opportunityLevel?: string
+  conversionProbability?: string
+  cleaningStatus?: string
+  currentHelp?: string
+  desiredFrequency?: string
+  decisionMaker?: string
+  primaryContact?: string
+  upstairsRooms?: number
+  downstairsDescription?: string
+  hasConferenceRooms?: boolean
+  hasPrivateOffices?: boolean
+  walkthroughScheduled?: boolean
+  walkthroughDate?: string
+  walkthroughNotes?: string
+  buyingSignals?: string[]
+  riskFactors?: string[]
+  estimatedMinValue?: number
+  estimatedMaxValue?: number
+  opportunityAnalysis?: string
+}
+
+export async function updateLead(id: string, data: LeadUpdatePayload) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+
+  await prisma.lead.update({
+    where: { id },
+    data: {
+      title: data.title,
+      location: data.location,
+      city: data.city ?? null,
+      state: data.state ?? null,
+      facilityType: data.facilityType ?? null,
+      leadQuality: data.leadQuality,
+      opportunityLevel: data.opportunityLevel ?? null,
+      conversionProbability: data.conversionProbability ?? null,
+      cleaningStatus: data.cleaningStatus ?? null,
+      currentHelp: data.currentHelp ?? null,
+      desiredFrequency: data.desiredFrequency ?? null,
+      decisionMaker: data.decisionMaker ?? null,
+      primaryContact: data.primaryContact ?? null,
+      upstairsRooms: data.upstairsRooms ?? null,
+      downstairsDescription: data.downstairsDescription ?? null,
+      hasConferenceRooms: data.hasConferenceRooms ?? null,
+      hasPrivateOffices: data.hasPrivateOffices ?? null,
+      walkthroughScheduled: data.walkthroughScheduled ?? false,
+      walkthroughDate: data.walkthroughDate ? new Date(data.walkthroughDate) : null,
+      walkthroughNotes: data.walkthroughNotes ?? null,
+      buyingSignals: data.buyingSignals ?? [],
+      riskFactors: data.riskFactors ?? [],
+      estimatedMinValue: data.estimatedMinValue ?? null,
+      estimatedMaxValue: data.estimatedMaxValue ?? null,
+      opportunityAnalysis: data.opportunityAnalysis ?? null,
+    },
+  })
+  revalidatePath('/dashboard/leads')
+  revalidatePath('/dashboard')
+}
+
+export async function deleteLead(id: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+
+  await prisma.lead.delete({ where: { id } })
+  revalidatePath('/dashboard/leads')
+  revalidatePath('/dashboard')
+}
+
 export async function createBlog(formData: FormData) {
   const session = await auth()
   if (!session?.user?.id) throw new Error('Unauthorized')
