@@ -1,6 +1,6 @@
 "use client"
 import Logo from '@/components/Layout/Header/Logo'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginFormSchema } from '@/components/schema/LoginSchema'
@@ -12,7 +12,7 @@ import Swal from "sweetalert2"
 
 type LoginFormData = z.infer<typeof LoginFormSchema>
 
-export default function SignInPage() {
+function SignInForm() {
     const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const router = useRouter()
@@ -169,5 +169,34 @@ export default function SignInPage() {
                 </form>
             </div>
         </div>
+    )
+}
+
+function SignInPageFallback() {
+    return (
+        <div className='flex items-center justify-center min-h-screen bg-AliceBlue dark:bg-darkmode px-4 py-8'>
+            <div className='max-w-md w-full mx-auto bg-white dark:bg-darklight p-6 rounded-lg shadow-light_shadwo dark:shadow-darkmd relative z-10 flex flex-col gap-4'>
+                <Logo />
+                <div>
+                    <h2 className='text-xl font-bold text-secondary dark:text-white mb-1'>Sign In</h2>
+                    <p className='text-SlateBlue dark:text-darktext text-xs'>
+                        Enter your credentials to access your account
+                    </p>
+                </div>
+                <div className='flex flex-col gap-3 animate-pulse'>
+                    <div className='h-10 bg-gray-200 dark:bg-darkmode rounded-lg' />
+                    <div className='h-10 bg-gray-200 dark:bg-darkmode rounded-lg' />
+                    <div className='h-10 bg-gray-200 dark:bg-darkmode rounded-lg mt-2' />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default function SignInPage() {
+    return (
+        <Suspense fallback={<SignInPageFallback />}>
+            <SignInForm />
+        </Suspense>
     )
 }
