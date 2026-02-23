@@ -1,18 +1,45 @@
 'use client'
 import { useReducer, useState } from 'react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
+const CONTACT_EMAIL = 'contact@janitorialappointment.com'
+
+// Monthly contract: $130/lead. Yearly contract: $120/lead.
+const MONTHLY_PER_LEAD = 130
+const YEARLY_PER_LEAD = 120
+const BASIC_LEADS_PER_MONTH = 7
+const PROFESSIONAL_LEADS_PER_MONTH = 12
+
+function buildPlanEmailUrl(plan: {
+  name: string
+  price: number
+  leads: number
+  perLead: number
+  duration: string
+}) {
+  const subject = encodeURIComponent(`I want to start: ${plan.name} plan ($${plan.price}/${plan.duration})`)
+  const body = encodeURIComponent(
+    `Hi,\n\nI'm interested in the ${plan.name} plan:\n\n` +
+    `• Plan: ${plan.name}\n` +
+    `• Price: $${plan.price}/${plan.duration}\n` +
+    `• Appointments: ${plan.leads}/month\n` +
+    `• Per lead: $${plan.perLead}\n\n` +
+    `Please let me know the next steps.\n\nThank you.`
+  )
+  // Gmail compose URL so on PC it opens Gmail in the browser
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${subject}&body=${body}`
+}
 
 const Preferred = () => {
   const [activeTab, setActiveTab] = useState('monthly')
 
   const initialTabConfig = {
     planType: 'monthly',
-    basicPrice: 910,
-    professionalPrice: 1560,
-    basicLeads: 7,
-    professionalLeads: 12,
-    perLeadCost: 130,
+    basicPrice: BASIC_LEADS_PER_MONTH * MONTHLY_PER_LEAD,
+    professionalPrice: PROFESSIONAL_LEADS_PER_MONTH * MONTHLY_PER_LEAD,
+    basicLeads: BASIC_LEADS_PER_MONTH,
+    professionalLeads: PROFESSIONAL_LEADS_PER_MONTH,
+    perLeadCost: MONTHLY_PER_LEAD,
     duration: 'month',
   }
   interface State {
@@ -59,7 +86,7 @@ const Preferred = () => {
           basicLeads: action.payload.basicLeads,
           professionalLeads: action.payload.professionalLeads,
           perLeadCost: action.payload.perLeadCost,
-          duration: action.payload.duration,
+          duration: 'monthly',
         }
         break
       default:
@@ -100,11 +127,11 @@ const Preferred = () => {
                         type: 'monthly',
                         payload: {
                           duration: 'month',
-                          basicPrice: 910,
-                          professionalPrice: 1560,
-                          basicLeads: 7,
-                          professionalLeads: 12,
-                          perLeadCost: 130,
+                          basicPrice: BASIC_LEADS_PER_MONTH * MONTHLY_PER_LEAD,
+                          professionalPrice: PROFESSIONAL_LEADS_PER_MONTH * MONTHLY_PER_LEAD,
+                          basicLeads: BASIC_LEADS_PER_MONTH,
+                          professionalLeads: PROFESSIONAL_LEADS_PER_MONTH,
+                          perLeadCost: MONTHLY_PER_LEAD,
                         },
                       })
                     }>
@@ -122,11 +149,11 @@ const Preferred = () => {
                         type: 'annually',
                         payload: {
                           duration: 'year',
-                          basicPrice: 840,
-                          professionalPrice: 1440,
-                          basicLeads: 7,
-                          professionalLeads: 12,
-                          perLeadCost: 120,
+                          basicPrice: BASIC_LEADS_PER_MONTH * YEARLY_PER_LEAD,
+                          professionalPrice: PROFESSIONAL_LEADS_PER_MONTH * YEARLY_PER_LEAD,
+                          basicLeads: BASIC_LEADS_PER_MONTH,
+                          professionalLeads: PROFESSIONAL_LEADS_PER_MONTH,
+                          perLeadCost: YEARLY_PER_LEAD,
                         },
                       })
                     }>
@@ -343,11 +370,17 @@ const Preferred = () => {
                       </span>
                     </li>
                   </ul>
-                  <Link
-                    href='#'
-                    className='btn mt-12 py-3 rounded-lg text-center'>
+                  <a
+                    href={buildPlanEmailUrl({
+                      name: 'Basic',
+                      price: tabConfig.basicPrice,
+                      leads: tabConfig.basicLeads,
+                      perLead: tabConfig.perLeadCost,
+                      duration: tabConfig.duration,
+                    })}
+                    className='btn mt-12 py-3 rounded-lg text-center block'>
                     Start Now
-                  </Link>
+                  </a>
                 </div>
               </div>
               <div
@@ -529,11 +562,17 @@ const Preferred = () => {
                       </span>
                     </li>
                   </ul>
-                  <Link
-                    href='#'
-                    className='btn mt-12 py-3 rounded-lg text-center'>
+                  <a
+                    href={buildPlanEmailUrl({
+                      name: 'Premium',
+                      price: tabConfig.professionalPrice,
+                      leads: tabConfig.professionalLeads,
+                      perLead: tabConfig.perLeadCost,
+                      duration: tabConfig.duration,
+                    })}
+                    className='btn mt-12 py-3 rounded-lg text-center block'>
                     Start Now
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
