@@ -29,7 +29,9 @@ export default async function DashboardRootLayout({
         <SessionProvider>
           <ThemeProvider attribute="class" enableSystem defaultTheme="system">
             <NextTopLoader color="#f9c78f" />
-            {children}
+            <div className=''>
+              {children}
+            </div>
           </ThemeProvider>
         </SessionProvider>
       </body>

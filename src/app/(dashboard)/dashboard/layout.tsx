@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   if (!roles?.includes(UserRole.ADMIN)) redirect('/unauthorized')
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-darkmode flex">
+    <div className="h-screen bg-gray-50 dark:bg-darkmode flex">
       <aside className="w-64 shrink-0 bg-white dark:bg-darklight border-r border-gray-200 dark:border-white/10 flex flex-col">
         <div className="p-6 border-b border-gray-200 dark:border-white/10">
           <Link href="/dashboard" className="text-xl font-bold text-primary">
@@ -32,7 +32,7 @@ export default async function DashboardLayout({
           </Link>
         </div>
       </aside>
-      <main className="flex-1 overflow-auto p-6 md:p-8">
+      <main className="flex-1 overflow-y-auto p-6 md:p-8">
         {children}
       </main>
     </div>
