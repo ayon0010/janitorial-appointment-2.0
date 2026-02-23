@@ -26,9 +26,11 @@ export async function signUp(formData: FormData): Promise<void> {
     redirect('/signup?error=' + encodeURIComponent(validation.error.message))
   }
 
+  const emailStr = (email as string).trim().toLowerCase()
+
   // Check if user already exists
   const existingUser = await prisma.user.findUnique({
-    where: { email: email as string },
+    where: { email: emailStr },
   })
 
   if (existingUser) {
@@ -49,12 +51,19 @@ export async function signUp(formData: FormData): Promise<void> {
     await prisma.user.create({
       data: {
         companyName: companyName as string,
-        email: email as string,
+        email: emailStr,
         hashedPassword,
         serviceState: serviceState as string,
         city: cityArray,
         roles: ['USER'],
       },
+    })
+
+    // Auto-subscribe new users to the newsletter
+    await prisma.newsletterSubscriber.upsert({
+      where: { email: emailStr },
+      create: { email: emailStr },
+      update: {},
     })
 
     redirect('/signin?success=' + encodeURIComponent('Account created successfully. Please sign in.'))

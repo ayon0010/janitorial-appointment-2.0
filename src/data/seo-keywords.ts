@@ -107,6 +107,24 @@ export function getStateQueryValues(stateName: string): string[] {
   return values;
 }
 
+/** Given state as either full name or code, returns [fullName, code] for matching (e.g. "NY" or "New York" → ["New York", "NY"]). */
+export function getStateMatchValues(state: string): string[] {
+  const trimmed = state.trim();
+  if (!trimmed) return [];
+  const fromName = getStateQueryValues(trimmed);
+  if (fromName.length > 1 || (fromName.length === 1 && stateToCode(trimmed) !== undefined)) return fromName;
+  const code = trimmed.toUpperCase();
+  const idx = (US_STATE_CODES as readonly string[]).indexOf(code);
+  if (idx >= 0) return [US_STATES[idx], US_STATE_CODES[idx]];
+  return [trimmed];
+}
+
+/** Resolve state input (code or full name) to full state name for storage. */
+export function toFullStateName(state: string): string {
+  const vals = getStateMatchValues(state);
+  return vals[0] ?? state.trim();
+}
+
 export function stateToSlug(state: string): string {
   return state.toLowerCase().replace(/\s+/g, "-");
 }

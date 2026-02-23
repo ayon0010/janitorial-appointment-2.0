@@ -13,6 +13,7 @@ const btnClass =
 function getFormValue(form: HTMLFormElement, name: string): string {
   return (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value?.trim() ?? ''
 }
+
 function getFormNumber(form: HTMLFormElement, name: string): number | undefined {
   const v = getFormValue(form, name)
   const n = parseInt(v, 10)
@@ -392,61 +393,61 @@ export default function LeadUploadForm() {
 
       {/* CSV upload */}
       <div className="bg-white dark:bg-darklight rounded-xl border border-gray-200 dark:border-white/10 p-6">
-      <h2 className="text-lg font-semibold text-secondary dark:text-white mb-2">
-        Upload leads (CSV)
-      </h2>
-      <p className="text-sm text-SlateBlue dark:text-darktext mb-4">
-        Paste CSV below or choose a file. Required columns: <code className="bg-gray-100 dark:bg-white/10 px-1 rounded">title</code>, <code className="bg-gray-100 dark:bg-white/10 px-1 rounded">location</code>. Optional: state, city, facilitytype, leadquality (LOW|MODERATE|HIGH), etc.
-      </p>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".csv,.txt"
-            onChange={handleFileChange}
-            className="hidden"
-            aria-label="Choose CSV file"
-          />
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={status === 'loading'}
-            className={btnClass}
-          >
-            Choose file (.csv, .txt)
-          </button>
-          <span className="text-xs text-SlateBlue dark:text-darktext">
-            Or paste CSV in the box below.
-          </span>
-        </div>
-        <textarea
-          name="csv"
-          rows={6}
-          value={csvText}
-          onChange={(e) => setCsvText(e.target.value)}
-          placeholder="title,location,state,city,leadquality&#10;Office Building,123 Main St,NY,New York,HIGH"
-          className={inputClass + ' font-mono'}
-        />
-        {status === 'done' && message && (
-          <SuccessBanner message={message} onDismiss={() => { setStatus('idle'); setMessage('') }} />
-        )}
-        {status === 'error' && message && (
-          <div role="alert" className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-red-700 dark:text-red-300 text-sm">
-            {message}
+        <h2 className="text-lg font-semibold text-secondary dark:text-white mb-2">
+          Upload leads (CSV)
+        </h2>
+        <p className="text-sm text-SlateBlue dark:text-darktext mb-4">
+          Paste CSV below or choose a file. Required columns: <code className="bg-gray-100 dark:bg-white/10 px-1 rounded">title</code>, <code className="bg-gray-100 dark:bg-white/10 px-1 rounded">location</code>. Optional: state, city, facilitytype, leadquality (LOW|MODERATE|HIGH), etc.
+        </p>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,.txt"
+              onChange={handleFileChange}
+              className="hidden"
+              aria-label="Choose CSV file"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={status === 'loading'}
+              className={btnClass}
+            >
+              Choose file (.csv, .txt)
+            </button>
+            <span className="text-xs text-SlateBlue dark:text-darktext">
+              Or paste CSV in the box below.
+            </span>
           </div>
-        )}
-        <div className="flex items-center gap-4">
-          <button
-            type="submit"
-            disabled={status === 'loading'}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {status === 'loading' && <LoaderSpinner className="border-white border-t-transparent" />}
-            {status === 'loading' ? 'Importing…' : 'Import leads'}
-          </button>
-        </div>
-      </form>
+          <textarea
+            name="csv"
+            rows={6}
+            value={csvText}
+            onChange={(e) => setCsvText(e.target.value)}
+            placeholder="title,location,state,city,leadquality&#10;Office Building,123 Main St,NY,New York,HIGH"
+            className={inputClass + ' font-mono'}
+          />
+          {status === 'done' && message && (
+            <SuccessBanner message={message} onDismiss={() => { setStatus('idle'); setMessage('') }} />
+          )}
+          {status === 'error' && message && (
+            <div role="alert" className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-red-700 dark:text-red-300 text-sm">
+              {message}
+            </div>
+          )}
+          <div className="flex items-center gap-4">
+            <button
+              type="submit"
+              disabled={status === 'loading'}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {status === 'loading' && <LoaderSpinner className="border-white border-t-transparent" />}
+              {status === 'loading' ? 'Importing…' : 'Import leads'}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   )

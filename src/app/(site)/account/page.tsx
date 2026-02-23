@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import AccountForm from './AccountForm'
 import HeroSub from '@/components/SharedComponent/HeroSub'
 import { Metadata } from 'next'
+import { US_STATES, US_STATE_CODES } from '@/data/seo-keywords'
 
 export const metadata: Metadata = {
   title: 'My Account | Janitorial Appointments',
@@ -122,6 +123,7 @@ export default async function AccountPage() {
                 defaultCities={user.city ?? []}
                 defaultDncList={user.dncList ?? ''}
                 defaultDncListFileUrl={user.dncListFileUrl ?? null}
+                stateOptions={US_STATES.map((name, i) => ({ name, code: US_STATE_CODES[i] }))}
               />
             </div>
           </div>

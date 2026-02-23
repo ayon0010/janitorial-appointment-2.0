@@ -45,6 +45,47 @@ const page = () => {
           </p>
         </div>
       </section>
+
+      <section className="bg-AliceBlue dark:bg-darklight py-12 md:py-16">
+        <div className="container max-w-3xl mx-auto">
+          <h2 className="text-xl md:text-2xl font-bold text-secondary dark:text-white mb-6">
+            What We Offer
+          </h2>
+          <ul className="space-y-3 text-SlateBlue dark:text-darktext text-base md:text-lg">
+            <li className="flex gap-3">
+              <span className="text-primary dark:text-lightPrimary font-bold shrink-0">•</span>
+              <span><strong className="text-secondary dark:text-white">Exclusive commercial cleaning leads</strong> — Pre-qualified businesses looking for janitorial or cleaning services in your target states and cities.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-primary dark:text-lightPrimary font-bold shrink-0">•</span>
+              <span><strong className="text-secondary dark:text-white">Outbound cold calling</strong> — Our team reaches decision-makers so you can focus on closing deals and delivering service.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-primary dark:text-lightPrimary font-bold shrink-0">•</span>
+              <span><strong className="text-secondary dark:text-white">Live appointment setting</strong> — We book confirmed appointments with prospects ready to discuss commercial cleaning quotes.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-primary dark:text-lightPrimary font-bold shrink-0">•</span>
+              <span><strong className="text-secondary dark:text-white">Custom campaigns</strong> — We tailor lead criteria, industries, and geographic areas to match your business goals.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="dark:bg-darkmode py-12 md:py-16">
+        <div className="container max-w-3xl mx-auto">
+          <h2 className="text-xl md:text-2xl font-bold text-secondary dark:text-white mb-4">
+            What Happens Next
+          </h2>
+          <p className="text-SlateBlue dark:text-darktext text-base md:text-lg leading-relaxed mb-4">
+            After you reach out, we typically respond within one business day. We’ll ask about your target market, volume needs, and whether you prefer leads only or full appointment-setting support. From there, we can share options and pricing so you can decide the best fit for your cleaning company.
+          </p>
+          <p className="text-SlateBlue dark:text-darktext text-base md:text-lg leading-relaxed">
+            No long-term contracts required — we work with cleaning businesses of all sizes and are happy to start with a small batch of leads or a trial so you can see the quality before scaling up.
+          </p>
+        </div>
+      </section>
+
       <ContactInfo contactEmail={CONTACT_EMAIL} facebookUrl={FACEBOOK_URL} />
       <ContactForm contactEmail={CONTACT_EMAIL} />
       <Location contactEmail={CONTACT_EMAIL} facebookUrl={FACEBOOK_URL} />

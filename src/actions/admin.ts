@@ -4,6 +4,8 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { UserRole } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
+import { sendLeadNotificationEmail } from '@/lib/resend'
+import { getStateMatchValues } from '@/data/seo-keywords'
 
 export async function setUserRole(userId: string, roles: UserRole[]) {
   const session = await auth()
@@ -80,9 +82,91 @@ export async function createLeads(data: {
       opportunityAnalysis: d.opportunityAnalysis ?? null,
     })),
   })
+
+  // Notify users when lead state matches user state (same state = send email)
+  const statesInPayload = [...new Set(data.map((d) => d.state).filter(Boolean))] as string[]
+  if (statesInPayload.length > 0 && created.count > 0) {
+    notifyUsersOfNewLeads(statesInPayload, created.count).catch((err) =>
+      console.error('[createLeads] notifyUsersOfNewLeads:', err)
+    )
+  }
+
   revalidatePath('/dashboard/leads')
   revalidatePath('/dashboard')
   return created.count
+}
+
+async function notifyUsersOfNewLeads(statesInPayload: string[], createdCount: number) {
+  // Normalize state values so "NY" and "New York" both match (lead state and user state must match)
+  const expandedStates = [...new Set(statesInPayload.flatMap((s) => getStateMatchValues(s)))].filter(Boolean)
+  if (expandedStates.length === 0) return
+
+  const since = new Date(Date.now() - 15000)
+  const recentLeads = await prisma.lead.findMany({
+    where: {
+      state: { in: expandedStates },
+      createdAt: { gte: since },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: Math.min(createdCount * 2, 500),
+    select: { id: true, title: true, location: true, city: true, state: true },
+  })
+  if (recentLeads.length === 0) return
+
+  const users = await prisma.user.findMany({
+    where: {
+      OR: [
+        { serviceState: { in: expandedStates } },
+        { serviceStates: { hasSome: expandedStates } },
+      ],
+    },
+    select: { id: true, email: true, companyName: true, serviceState: true, serviceStates: true },
+  })
+
+  // Group leads by canonical state (so "NY" and "New York" are the same)
+  const leadsByState = new Map<string, typeof recentLeads>()
+  for (const lead of recentLeads) {
+    if (!lead.state) continue
+    const variants = getStateMatchValues(lead.state)
+    const canonicalState = variants[0] ?? lead.state.trim()
+    if (!leadsByState.has(canonicalState)) leadsByState.set(canonicalState, [])
+    leadsByState.get(canonicalState)!.push(lead)
+  }
+
+  for (const user of users) {
+    // Build the list of canonical states this user serves (handles both codes and full names)
+    const rawUserStates = [user.serviceState, ...(user.serviceStates || [])].filter(Boolean) as string[]
+    const canonicalUserStates = new Set(
+      rawUserStates
+        .map((s) => {
+          const variants = getStateMatchValues(s)
+          return variants[0] ?? s.trim()
+        })
+        .filter(Boolean) as string[]
+    )
+
+    // Keep only states where we actually have leads
+    const matchingCanonicalStates = Array.from(canonicalUserStates).filter((state) =>
+      leadsByState.has(state)
+    )
+    if (matchingCanonicalStates.length === 0) continue
+
+    for (const state of matchingCanonicalStates) {
+      const leads = leadsByState.get(state) ?? []
+      if (!leads.length) continue
+      await sendLeadNotificationEmail({
+        to: user.email,
+        userName: user.companyName,
+        state,
+        leads: leads.map((l) => ({
+          id: l.id,
+          title: l.title,
+          city: l.city,
+          state: state,
+        })),
+      })
+    }
+  }
 }
 
 export type LeadUpdatePayload = {
@@ -200,4 +284,106 @@ export async function deleteBlog(id: string) {
   await prisma.blog.delete({ where: { id } })
   revalidatePath('/dashboard/blogs')
   revalidatePath('/dashboard')
+}
+
+export async function getNewsletterSubscriberCount() {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+  return prisma.newsletterSubscriber.count()
+}
+
+export async function getEmailRecipients() {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+
+  const [subscribers, users] = await Promise.all([
+    prisma.newsletterSubscriber.findMany({ select: { email: true } }),
+    prisma.user.findMany({ select: { email: true } }),
+  ])
+
+  const seen = new Set<string>()
+  const recipients: { id: string; email: string }[] = []
+
+  const addEmail = (email: string | null | undefined) => {
+    if (!email) return
+    const trimmed = email.trim()
+    if (!trimmed) return
+    const norm = trimmed.toLowerCase()
+    if (seen.has(norm)) return
+    seen.add(norm)
+    recipients.push({ id: norm, email: trimmed })
+  }
+
+  subscribers.forEach((s) => addEmail(s.email))
+  users.forEach((u) => addEmail(u.email))
+
+  return recipients
+}
+
+export async function sendNewsletter(subject: string, bodyHtml: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+
+  if (!subject?.trim()) throw new Error('Subject is required')
+  if (!bodyHtml?.trim()) throw new Error('Body is required')
+
+  const { sendEmail, isResendConfigured } = await import('@/lib/resend')
+  if (!isResendConfigured()) throw new Error('Resend is not configured (RESEND_API_KEY missing)')
+
+  const subscribers = await prisma.newsletterSubscriber.findMany({
+    select: { email: true },
+  })
+  if (subscribers.length === 0) throw new Error('No subscribers to send to')
+
+  const { applyTemplatePlaceholders } = await import('@/app/(dashboard)/dashboard/newsletter/email-templates')
+  const bodyWithPlaceholders = applyTemplatePlaceholders(bodyHtml, process.env.NEXT_PUBLIC_SITE_URL)
+  const html = bodyWithPlaceholders.startsWith('<') ? bodyWithPlaceholders : `<p>${bodyWithPlaceholders.replace(/\n/g, '</p><p>')}</p>`
+  let sent = 0
+  for (const { email } of subscribers) {
+    const result = await sendEmail({ to: email, subject: subject.trim(), html })
+    if (result.success) sent++
+  }
+  return { sent, total: subscribers.length }
+}
+
+export async function getNewsletterSubscribers() {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+  return prisma.newsletterSubscriber.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: { id: true, email: true, createdAt: true },
+  })
+}
+
+export async function sendSingleEmail(to: string, subject: string, bodyHtml: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+
+  const toTrimmed = to?.trim()
+  if (!toTrimmed) throw new Error('Recipient email is required')
+  if (!subject?.trim()) throw new Error('Subject is required')
+  if (!bodyHtml?.trim()) throw new Error('Body is required')
+
+  const { sendEmail, isResendConfigured } = await import('@/lib/resend')
+  if (!isResendConfigured()) throw new Error('Resend is not configured (RESEND_API_KEY missing)')
+
+  const { applyTemplatePlaceholders } = await import('@/app/(dashboard)/dashboard/newsletter/email-templates')
+  const bodyWithPlaceholders = applyTemplatePlaceholders(bodyHtml, process.env.NEXT_PUBLIC_SITE_URL)
+  const html = bodyWithPlaceholders.startsWith('<') ? bodyWithPlaceholders : `<p>${bodyWithPlaceholders.replace(/\n/g, '</p><p>')}</p>`
+  const result = await sendEmail({ to: toTrimmed, subject: subject.trim(), html })
+  if (!result.success) {
+    const err = result.error
+    throw new Error(typeof err === 'object' && err && 'message' in err ? (err as { message?: string }).message : 'Failed to send email')
+  }
+  return { success: true }
 }

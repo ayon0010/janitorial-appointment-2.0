@@ -1,5 +1,5 @@
 'use client'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import Link from 'next/link'
 import { sections } from '../../../app/api/data'
 import { usePathname } from 'next/navigation'
@@ -11,9 +11,39 @@ const footerTitles = {
   platform: 'Platform',
 }
 
+const SITE_NAME = 'Janitorial Appointments'
+
 const Footer: FC = () => {
   const pathname = usePathname()
-  console.log(pathname) // For debugging
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [message, setMessage] = useState('')
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email.trim()) return
+    setStatus('loading')
+    setMessage('')
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      })
+      const data = await res.json()
+      if (res.ok && data.success) {
+        setEmail('')
+        setStatus('success')
+        setMessage(data.message || "You're signed up for updates.")
+      } else {
+        setStatus('error')
+        setMessage(data.message || 'Something went wrong. Please try again.')
+      }
+    } catch {
+      setStatus('error')
+      setMessage('Something went wrong. Please try again.')
+    }
+  }
 
   return (
     <footer
@@ -93,27 +123,35 @@ const Footer: FC = () => {
               <p className='text-lg font-medium text-white pb-4'>
                 Sign up for updates
               </p>
-              <div className='relative flex'>
+              <form onSubmit={handleNewsletterSubmit} className='relative flex'>
                 <input
                   type='email'
                   name='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder='Email address*'
-                  className='bg-transparent border border-dark_border border-solid py-3 pl-6 pr-14 rounded-lg focus:outline-0 text-SlateBlue w-full focus:border-primary'
+                  disabled={status === 'loading'}
+                  className='bg-transparent border border-dark_border border-solid py-3 pl-6 pr-14 rounded-lg focus:outline-0 text-SlateBlue w-full focus:border-primary disabled:opacity-70'
                   aria-label='Email address'
+                  required
                 />
                 <button
-                  className='absolute bg-transparent right-0 p-4'
-                  aria-label='Submit'>
+                  type='submit'
+                  disabled={status === 'loading'}
+                  className='absolute bg-transparent right-0 p-4 disabled:opacity-70'
+                  aria-label='Subscribe'>
                   <i className="bg-[url('/images/footer/msg-enter.svg')] bg-contain w-5 h-5 inline-block"></i>
                 </button>
-              </div>
+              </form>
+              {message && (
+                <p
+                  className={`text-sm mt-2 max-w-310 ${status === 'success' ? 'text-green-400' : 'text-red-300'}`}
+                  role="alert">
+                  {message}
+                </p>
+              )}
               <p className='text-base font-normal text-SlateBlue max-w-310 pt-3'>
-                © Copyright 2025. All rights reserved by{' '}
-                <Link
-                  href={'https://getnextjstemplates.com/'}
-                  className='hover:text-primary'>
-                  GetNextJs Themes
-                </Link>
+                © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
               </p>
             </div>
           </div>

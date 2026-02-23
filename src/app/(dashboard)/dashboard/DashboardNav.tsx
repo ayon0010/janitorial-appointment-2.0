@@ -9,6 +9,7 @@ const navItems = [
   { href: '/dashboard/users', label: 'Users' },
   { href: '/dashboard/leads', label: 'Leads' },
   { href: '/dashboard/blogs', label: 'Blogs' },
+  { href: '/dashboard/newsletter', label: 'Newsletter' },
 ]
 
 export default function DashboardNav() {

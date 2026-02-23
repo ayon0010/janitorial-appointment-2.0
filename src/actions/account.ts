@@ -3,6 +3,7 @@
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { v2 as cloudinary } from 'cloudinary'
+import { toFullStateName } from '@/data/seo-keywords'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -14,7 +15,7 @@ export async function updateProfile(formData: FormData) {
   const session = await auth()
   if (!session?.user?.id) throw new Error('Unauthorized')
 
-  const serviceState = (formData.get('serviceState') as string)?.trim()
+  const serviceStateRaw = (formData.get('serviceState') as string)?.trim()
   const extraStatesRaw = (formData.get('serviceStates') as string)?.trim()
   const citiesRaw = (formData.get('cities') as string)?.trim()
   const dncList = (formData.get('dncList') as string)?.trim() || null
@@ -22,7 +23,10 @@ export async function updateProfile(formData: FormData) {
   const dncFile = formData.get('dncFile') as File | null
 
   const serviceStates = extraStatesRaw
-    ? extraStatesRaw.split(/[\n,;]+/).map((s) => s.trim()).filter(Boolean)
+    ? extraStatesRaw
+        .split(/[\n,;]+/)
+        .map((s) => toFullStateName(s))
+        .filter(Boolean)
     : []
   const city = citiesRaw
     ? citiesRaw.split(/[\n,;]+/).map((c) => c.trim()).filter(Boolean)
@@ -39,7 +43,7 @@ export async function updateProfile(formData: FormData) {
     city,
     dncList,
   }
-  if (serviceState) data.serviceState = serviceState
+  if (serviceStateRaw) data.serviceState = toFullStateName(serviceStateRaw)
 
   if (removeDncFile) {
     data.dncListFileUrl = null

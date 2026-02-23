@@ -4,6 +4,10 @@ import { updateProfile } from '@/actions/account'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { toFullStateName } from '@/data/seo-keywords'
+
+type StateOption = { name: string; code: string }
 
 export default function AccountForm({
   defaultServiceState,
@@ -11,12 +15,14 @@ export default function AccountForm({
   defaultCities,
   defaultDncList,
   defaultDncListFileUrl,
+  stateOptions,
 }: {
   defaultServiceState: string
   defaultServiceStates: string[]
   defaultCities: string[]
   defaultDncList: string
   defaultDncListFileUrl: string | null
+  stateOptions: StateOption[]
 }) {
   const router = useRouter()
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
@@ -27,6 +33,19 @@ export default function AccountForm({
   const [removeDncFile, setRemoveDncFile] = useState(false)
   const dncFileInputRef = useRef<HTMLInputElement>(null)
 
+  const [extraStates, setExtraStates] = useState<string[]>(() =>
+    defaultServiceStates.map((s) => toFullStateName(s))
+  )
+  const [extraStateInput, setExtraStateInput] = useState('')
+  const [extraStateDropdownOpen, setExtraStateDropdownOpen] = useState(false)
+  const [extraStateDropdownRect, setExtraStateDropdownRect] = useState<{
+    top: number
+    left: number
+    width: number
+  } | null>(null)
+  const extraStateContainerRef = useRef<HTMLDivElement>(null)
+  const extraStateInputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     setDncList(defaultDncList)
   }, [defaultDncList])
@@ -35,6 +54,66 @@ export default function AccountForm({
     setRemoveDncFile(false)
     setPendingDncFile(null)
   }, [defaultDncListFileUrl])
+
+  const extraStateQuery = extraStateInput.trim().toLowerCase()
+  const extraStateSuggestions =
+    extraStateQuery.length === 0
+      ? stateOptions
+      : stateOptions.filter(
+          (opt) =>
+            opt.name.toLowerCase().includes(extraStateQuery) ||
+            opt.code.toLowerCase() === extraStateQuery
+        )
+
+  const updateExtraStateDropdownRect = () => {
+    const el = extraStateInputRef.current
+    if (el) {
+      const r = el.getBoundingClientRect()
+      setExtraStateDropdownRect({ top: r.bottom + 4, left: r.left, width: r.width })
+    } else setExtraStateDropdownRect(null)
+  }
+
+  const openExtraStateDropdown = () => {
+    setExtraStateDropdownOpen(true)
+    updateExtraStateDropdownRect()
+  }
+
+  useEffect(() => {
+    if (!extraStateDropdownOpen) return
+    updateExtraStateDropdownRect()
+    const onScrollOrResize = () => updateExtraStateDropdownRect()
+    window.addEventListener('scroll', onScrollOrResize, true)
+    window.addEventListener('resize', onScrollOrResize)
+    return () => {
+      window.removeEventListener('scroll', onScrollOrResize, true)
+      window.removeEventListener('resize', onScrollOrResize)
+    }
+  }, [extraStateDropdownOpen, extraStateInput])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        extraStateContainerRef.current &&
+        !extraStateContainerRef.current.contains(e.target as Node)
+      )
+        setExtraStateDropdownOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const addExtraState = (fullName: string) => {
+    const normalized = toFullStateName(fullName)
+    if (!normalized) return
+    if (extraStates.includes(normalized)) return
+    setExtraStates((prev) => [...prev, normalized])
+    setExtraStateInput('')
+    setExtraStateDropdownOpen(false)
+  }
+
+  const removeExtraState = (fullName: string) => {
+    setExtraStates((prev) => prev.filter((s) => s !== fullName))
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -108,20 +187,96 @@ export default function AccountForm({
           />
         </div>
 
-        <div>
-          <label htmlFor="serviceStates" className={labelClass}>
+        <div ref={extraStateContainerRef}>
+          <label htmlFor="extraStateInput" className={labelClass}>
             Extra states you serve
           </label>
-          <textarea
-            id="serviceStates"
-            name="serviceStates"
-            rows={2}
-            defaultValue={defaultServiceStates.join('\n')}
-            placeholder="Add more states (one per line or comma-separated)&#10;e.g. NJ, Connecticut, Pennsylvania"
+          <input type="hidden" name="serviceStates" value={extraStates.join('\n')} readOnly />
+          {extraStates.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-2">
+              {extraStates.map((s) => (
+                <span
+                  key={s}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary"
+                >
+                  {s}
+                  <button
+                    type="button"
+                    onClick={() => removeExtraState(s)}
+                    className="rounded-full p-0.5 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary focus:outline-none"
+                    aria-label={`Remove ${s}`}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+          <input
+            ref={extraStateInputRef}
+            id="extraStateInput"
+            type="text"
+            value={extraStateInput}
+            onChange={(e) => {
+              setExtraStateInput(e.target.value)
+              openExtraStateDropdown()
+            }}
+            onFocus={openExtraStateDropdown}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && extraStateSuggestions.length > 0) {
+                e.preventDefault()
+                addExtraState(extraStateSuggestions[0].name)
+              }
+            }}
+            placeholder="Type state name or code (e.g. NY, California)..."
             className={inputClass}
+            autoComplete="off"
+            aria-label="Add extra state"
           />
+          {typeof document !== 'undefined' &&
+            extraStateDropdownOpen &&
+            extraStateDropdownRect &&
+            createPortal(
+              <div
+                className="fixed z-[100] max-h-56 overflow-auto rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-darklight shadow-xl py-1"
+                role="listbox"
+                aria-label="State suggestions"
+                style={{
+                  top: extraStateDropdownRect.top,
+                  left: extraStateDropdownRect.left,
+                  width: Math.max(extraStateDropdownRect.width, 220),
+                }}
+              >
+                {extraStateSuggestions.length === 0 ? (
+                  <div className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
+                    {extraStateQuery.length === 0
+                      ? 'Type to search states'
+                      : 'No matching state (use full name or 2-letter code)'}
+                  </div>
+                ) : (
+                  extraStateSuggestions.map((opt) => (
+                    <div
+                      key={opt.name}
+                      role="option"
+                      tabIndex={0}
+                      className="px-4 py-2.5 text-sm text-secondary dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 focus:bg-gray-100 dark:focus:bg-white/10 outline-none flex justify-between items-center"
+                      onMouseDown={(e) => {
+                        e.preventDefault()
+                        addExtraState(opt.name)
+                      }}
+                    >
+                      <span>{opt.name}</span>
+                      <span className="text-xs text-SlateBlue dark:text-darktext">{opt.code}</span>
+                    </div>
+                  ))
+                )}
+              </div>,
+              document.body
+            )}
           <p className="mt-1.5 text-xs text-SlateBlue dark:text-darktext">
-            List any additional states where you provide service.
+            Add more states where you provide service. Type full name or code (e.g. NY → New York); we store the full name.
           </p>
         </div>
 
