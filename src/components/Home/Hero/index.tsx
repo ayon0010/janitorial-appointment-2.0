@@ -13,7 +13,7 @@ const Hero = ({ searchParams }: HeroProps) => {
       <section className="relative overflow-x-clip top-0 bg-primary circalanimat before:content-[''] before:absolute before:bg-[url('/images/work-grow/work-line.png')] before:bg-no-repeat before:bg-contain before:w-44 before:h-20 before:bottom-40 lg:before:inline-block before:hidden">
         <div className='banner-shap it-wrapper'>
           <div className='container py-20'>
-            <div className='flex flex-wrap'>
+            <div className='flex flex-wrap gap-6'>
               <div
                 className="pb-3 sm:pb-0 md:w-2/3 w-full relative z-10"
                 data-aos="fade-right"

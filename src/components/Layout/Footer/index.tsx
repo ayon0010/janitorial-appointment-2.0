@@ -45,9 +45,10 @@ const Footer: FC = () => {
     }
   }
 
+
   return (
     <footer
-      className={`relative dark:bg-darkmode bg-[url('/images/footer/ftr-bg.png')] bg-cover bg-no-repeat w-full h-full ${pathname === '/' ? 'pt-72 z-3' : 'pt-32'
+      className={`relative dark:bg-darkmode bg-[url('/images/footer/ftr-bg.png')] bg-cover bg-no-repeat w-full h-full ${pathname === '/' ? 'pt-56 z-3' : 'pt-44'
         }`}>
       <div className='bg-secondary md:pb-20 pb-8'>
         <div className='container'>
@@ -97,7 +98,7 @@ const Footer: FC = () => {
               </ul>
             </div>
           </div>
-          <div className='grid grid-cols-12 pt-10'>
+          <div className='grid md:grid-cols-12 md:gap-0 gap-10 pt-10'>
             {Object.entries(sections).map(([sectionKey, items], index) => {
               // Define column span based on index or sectionKey
               let colSpan = 'col-span-3'

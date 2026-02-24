@@ -5,7 +5,7 @@ import Image from 'next/image'
 const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { contactEmail?: string }) => {
   return (
     <>
-      <section className='dark:bg-darkmode pt-0 md:pb-24 pb-10'>
+      <section className='dark:bg-darkmode pt-0 md:pb-24 pb-10' id='appointment'>
         <div className='container'>
           <div className='grid lg:grid-cols-12 grid-cols-1 md:gap-20 gap-10'>
             <div className='md:col-span-6 col-span-1'>
@@ -113,7 +113,7 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                 height={0}
                 quality={100}
                 sizes='100vh'
-                className='bg-no-repeat bg-contain rounded-lg w-526 h-650'
+                className='bg-no-repeat md:bg-contain bg-cover rounded-lg w-526 h-650'
               />
             </div>
           </div>

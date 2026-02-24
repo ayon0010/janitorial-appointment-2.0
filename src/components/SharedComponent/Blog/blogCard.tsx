@@ -30,7 +30,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
                 <div>
                     <h3>
                         <Link
-                            href={`/blog/${slug}`}
+                            href={`/${slug}`}
                             className="mb-4 inline-block font-semibold text-dark text-secondary group-hover:text-primary dark:text-white dark:group-hover:text-primary text-[22px] leading-[2rem]"
                         >
                             {title}

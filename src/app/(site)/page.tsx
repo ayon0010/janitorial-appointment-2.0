@@ -26,16 +26,16 @@ type HomeProps = { searchParams: Promise<{ error?: string; booked?: string }> }
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams
   return (
-    <main>
+    <main className='w-full'>
       <Hero searchParams={params} />
       <BuildAmazing isSpace={true} />
-      <GetStart/>
-      <WorkGrow/>
-      <Preferred/>
-      <Counter/>
-      <CustomerReviews/>
-      <ConnectWithUs/>
-      <FaqQuestion/>
+      <GetStart />
+      <WorkGrow />
+      <Preferred />
+      <Counter />
+      <CustomerReviews />
+      <ConnectWithUs />
+      <FaqQuestion />
     </main>
   )
 }

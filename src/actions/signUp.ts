@@ -4,6 +4,9 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { SignUpFormSchema } from '@/components/schema/SignUpSchema'
 import { redirect } from 'next/navigation'
+import { sendEmail, isResendConfigured } from '@/lib/resend'
+
+const ADMIN_SIGNUP_EMAIL = 'shariar.ayon128@gmail.com'
 
 export async function signUp(formData: FormData): Promise<void> {
   const companyName = formData.get('companyName')
@@ -65,6 +68,26 @@ export async function signUp(formData: FormData): Promise<void> {
       create: { email: emailStr },
       update: {},
     })
+
+    // Notify admin about new signup (non-blocking)
+    if (isResendConfigured()) {
+      const safeCompany = (companyName as string) || 'Unknown company'
+      const safeState = (serviceState as string) || 'N/A'
+      const safeCities = cityArray.length ? cityArray.join(', ') : 'N/A'
+      void sendEmail({
+        to: ADMIN_SIGNUP_EMAIL,
+        subject: `New user signup: ${safeCompany} (${emailStr})`,
+        html: `
+          <p>A new user has signed up on Janitorial Appointments.</p>
+          <ul>
+            <li><strong>Company:</strong> ${safeCompany}</li>
+            <li><strong>Email:</strong> ${emailStr}</li>
+            <li><strong>Primary state:</strong> ${safeState}</li>
+            <li><strong>Cities:</strong> ${safeCities}</li>
+          </ul>
+        `,
+      })
+    }
 
     redirect('/signin?success=' + encodeURIComponent('Account created successfully. Please sign in.'))
   } catch (error) {

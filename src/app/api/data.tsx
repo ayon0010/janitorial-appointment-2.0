@@ -120,25 +120,23 @@ export const accordionData = [
 
 
 export const sections = {
+  // Main site & lead generation pages
   features: [
-    { name: 'Online Payments', href: '/' },
-    { name: 'Financial Projections', href: '/' },
-    { name: 'Bookkeeping', href: '/' },
-    { name: 'Banking', href: '/' },
+    { name: 'Home', href: '/' },
+    { name: 'Commercial cleaning leads', href: '/commercial-cleaning-leads' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'About', href: '/about' },
   ],
+  // Helpful content & support
   resources: [
-    { name: 'Documentation', href: '/' },
-    { name: 'Integrations', href: '/' },
-    { name: 'API Reference', href: '/' },
-    { name: 'Support', href: '/' },
-    { name: 'Help', href: '/' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'FAQs', href: '/faqs' },
+    { name: 'Contact', href: '/contact' },
+    { name: 'My account', href: '/account' },
   ],
+  // Logged‑in experience & platform links
   platform: [
-    { name: 'Infrastructure', href: '/' },
-    { name: 'Certifications', href: '/' },
-    { name: 'Licenses', href: '/' },
-    { name: 'Terms and conditions', href: '/' },
-    { name: 'Legal', href: '/' },
+    { name: 'Book an Appointment', href: '/contact#appointment' },
   ],
 };
 

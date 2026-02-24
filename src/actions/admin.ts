@@ -262,13 +262,14 @@ export async function createBlog(formData: FormData) {
 
   if (!title || !slug) throw new Error('Title and slug required')
 
-  await prisma.blog.create({
+  await prisma.blogPost.create({
     data: {
       title,
       slug: slug.trim().toLowerCase().replace(/\s+/g, '-'),
-      excerpt,
-      content,
-      coverImage,
+      content: content ?? '',
+      featuredImage: coverImage,
+      contentHtml: content ?? '',
+      metaDescription: excerpt,
     },
   })
   revalidatePath('/dashboard/blogs')
@@ -281,7 +282,7 @@ export async function deleteBlog(id: string) {
   const userRoles = session.user.roles as UserRole[] | undefined
   if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
 
-  await prisma.blog.delete({ where: { id } })
+  await prisma.blogPost.delete({ where: { id } })
   revalidatePath('/dashboard/blogs')
   revalidatePath('/dashboard')
 }

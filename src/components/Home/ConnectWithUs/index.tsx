@@ -6,11 +6,11 @@ const ConnectWithUs = () => {
   const whatsappNumber = '8801568868704' // Format: country code + number (no + sign in URL)
   const whatsappMessage = encodeURIComponent('Hello! I would like to learn more about your janitorial appointment booking service.')
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
-  
+
   const facebookUrl = 'https://www.facebook.com/commercialcleaningleads/'
 
   return (
-    <section className='py-20 bg-AliceBlue dark:bg-darklight'>
+    <section className='py-20 dark:bg-darklight bg-AliceBlue overflow-x-hidden'>
       <div className='container'>
         <div
           className='text-center mb-12'

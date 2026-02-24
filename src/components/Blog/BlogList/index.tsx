@@ -15,16 +15,22 @@ const BlogList: React.FC<BlogListProps> = ({ posts: postsProp }) => {
       id='blog'>
       <div className='container'>
         <div className='grid grid-cols-12 gap-7'>
-          {posts.map((blog, i) => (
-            <div
-              key={i}
-              className='w-full lg:col-span-4 md:col-span-6 col-span-12'
-              data-aos='fade-up'
-              data-aos-delay='200'
-              data-aos-duration='1000'>
-              <BlogCard blog={blog} />
+          {posts.length === 0 ? (
+            <div className='col-span-12 text-center py-16 text-SlateBlue dark:text-darktext'>
+              <p className='text-lg'>Aucun article pour le moment.</p>
+              <p className='mt-2 text-sm'>Revenez bientôt pour découvrir nos contenus.</p>
             </div>
-          ))}
+          ) : (
+            posts.map((blog, i) => (
+              <div
+                key={blog.slug ?? `post-${i}`}
+                className='w-full lg:col-span-4 md:col-span-6 col-span-12'
+                data-aos='fade-up'
+                data-aos-delay='200'
+                data-aos-duration='1000'>
+                <BlogCard blog={blog} />
+              </div>
+            )))}
         </div>
       </div>
     </section>

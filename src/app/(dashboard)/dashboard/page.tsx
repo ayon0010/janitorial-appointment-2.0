@@ -6,7 +6,7 @@ export default async function DashboardOverviewPage() {
     prisma.message.count(),
     prisma.user.count(),
     prisma.lead.count(),
-    prisma.blog.count(),
+    prisma.blogPost.count(),
   ])
 
   const cards = [
