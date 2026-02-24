@@ -5,16 +5,25 @@ import Counter from '@/components/Home/Counter'
 import WorkGrow from '@/components/Home/work-grow'
 import BuildAmazing from '@/components/Home/Build-Amazing'
 import Link from 'next/link'
+import { buildCanonical } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'About Us | Commercial Cleaning Leads & Janitorial Appointment Setting',
   description:
     'We are 8+ years in commercial cleaning lead generation, serving 30+ companies across the US. Based in Brooklyn, New York. Pre-qualified janitorial leads and appointment setting for cleaning businesses.',
+  alternates: { canonical: buildCanonical('/about') },
   openGraph: {
     title: 'About Us | Commercial Cleaning Leads & Janitorial Services',
     description:
       '8+ years of experience. 30+ companies served in the US. Brooklyn, NY-based commercial cleaning lead generation and appointment setting.',
     type: 'website',
+    url: buildCanonical('/about'),
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Us | Commercial Cleaning Leads & Janitorial Services',
+    description:
+      '8+ years of experience. 30+ companies served in the US. Brooklyn, NY-based commercial cleaning lead generation and appointment setting.',
   },
 }
 

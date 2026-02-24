@@ -5,9 +5,25 @@ import { Metadata } from 'next'
 import { prisma } from '@/lib/prisma'
 import { Blog } from '@/types/blog'
 import type { BlogPost as BlogPostModel } from '@prisma/client'
+import { SITE_NAME } from '@/data/seo-keywords'
+import { buildCanonical } from '@/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Blog | Sustainable',
+  title: `Blog | ${SITE_NAME}`,
+  description:
+    'Discover articles on commercial cleaning leads, janitorial appointments, and lead generation for cleaning companies. Tips and insights from the team.',
+  alternates: { canonical: buildCanonical('/blog') },
+  openGraph: {
+    title: `Blog | ${SITE_NAME}`,
+    description:
+      'Discover articles on commercial cleaning leads, janitorial appointments, and lead generation for cleaning companies.',
+    type: 'website',
+    url: buildCanonical('/blog'),
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Blog | ${SITE_NAME}`,
+  },
 }
 
 

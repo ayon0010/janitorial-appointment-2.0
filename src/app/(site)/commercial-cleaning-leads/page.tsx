@@ -1,17 +1,26 @@
 import HeroSub from "@/components/SharedComponent/HeroSub";
-import { US_STATES, stateToSlug } from "@/data/seo-keywords";
+import { US_STATES, stateToSlug, SITE_NAME } from "@/data/seo-keywords";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildCanonical } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Commercial Cleaning Leads by State | Janitorial Appointments",
+  title: "Commercial Cleaning Leads by State",
   description:
     "Find exclusive commercial cleaning leads and janitorial appointments in your state. Pre-qualified businesses, no cold calling. Select your state to get started.",
+  alternates: { canonical: buildCanonical("/commercial-cleaning-leads") },
   openGraph: {
     title: "Commercial Cleaning Leads by State | Janitorial Appointments",
     description:
       "Find exclusive commercial cleaning leads and janitorial appointments in your state. Pre-qualified businesses, no cold calling.",
     type: "website",
+    url: buildCanonical("/commercial-cleaning-leads"),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Commercial Cleaning Leads by State | Janitorial Appointments",
+    description:
+      "Find exclusive commercial cleaning leads and janitorial appointments in your state.",
   },
 };
 

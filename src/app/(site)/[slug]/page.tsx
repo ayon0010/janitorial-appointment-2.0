@@ -4,6 +4,8 @@ import { format } from 'date-fns'
 import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
+import { SITE_NAME } from '@/data/seo-keywords'
+import { buildCanonical, getArticleJsonLd, getBreadcrumbJsonLd } from '@/lib/seo'
 
 type Props = {
     params: Promise<{ slug: string }>
@@ -12,12 +14,26 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
     const { slug } = await params
     const dbPost = await prisma.blogPost.findUnique({ where: { slug } })
-    const siteName = process.env.SITE_NAME || 'Your Site Name'
 
     if (dbPost?.title) {
+        const canonical = buildCanonical(`/${slug}`)
         return {
-            title: `${dbPost.title} | ${siteName}`,
+            title: dbPost.title,
             description: dbPost.metaDescription ?? undefined,
+            alternates: { canonical },
+            openGraph: {
+                title: dbPost.title,
+                description: dbPost.metaDescription ?? undefined,
+                type: 'article',
+                url: canonical,
+                siteName: SITE_NAME,
+                ...(dbPost.featuredImage && { images: [dbPost.featuredImage] }),
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: dbPost.title,
+                description: dbPost.metaDescription ?? undefined,
+            },
             robots: { index: true, follow: true },
         }
     }
@@ -38,8 +54,31 @@ export default async function Post({ params }: Props) {
     const isHtml = raw.trim().startsWith('<')
     const html = isHtml ? raw : await markdownToHtml(raw)
 
+    const postUrl = buildCanonical(`/${slug}`)
+    const articleJsonLd = getArticleJsonLd({
+        title: dbPost.title,
+        description: dbPost.metaDescription,
+        image: dbPost.featuredImage,
+        datePublished: dbPost.createdAt.toISOString(),
+        dateModified: dbPost.updatedAt?.toISOString(),
+        url: postUrl,
+    })
+    const breadcrumbJsonLd = getBreadcrumbJsonLd([
+        { name: SITE_NAME, path: '' },
+        { name: 'Blog', path: '/blog' },
+        { name: dbPost.title, path: `/${slug}` },
+    ])
+
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
             <section className='dark:bg-darkmode py-20'>
                 <div className='container'>
                     <div className='grid md:grid-cols-12 grid-cols-1 items-center'>

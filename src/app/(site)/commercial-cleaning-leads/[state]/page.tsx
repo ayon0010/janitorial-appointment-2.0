@@ -9,12 +9,11 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { buildCanonical, getBreadcrumbJsonLd, getServiceJsonLd } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ state: string }>;
 };
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janitorialappointments.com";
 
 export const revalidate = 60;
 
@@ -27,9 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const stateName = slugToState(stateSlug);
   const title = `Commercial Cleaning Leads ${stateName} | ${SITE_NAME}`;
   const description = `Get exclusive commercial cleaning leads and janitorial appointments in ${stateName}. Pre-qualified businesses ready to meet. No cold calling.`;
-  const canonical = `${BASE_URL}/commercial-cleaning-leads/${stateSlug}`;
+  const canonical = buildCanonical(`/commercial-cleaning-leads/${stateSlug}`);
   return {
-    title,
+    title: `Commercial Cleaning Leads ${stateName}`,
     description,
     keywords: [
       `commercial cleaning leads ${stateName}`,
@@ -38,6 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "pre-qualified janitorial appointments",
       "commercial cleaning appointments",
     ],
+    alternates: { canonical },
     openGraph: {
       title,
       description,
@@ -50,7 +50,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
     },
-    alternates: { canonical },
     robots: { index: true, follow: true },
   };
 }
@@ -85,32 +84,28 @@ export default async function CommercialCleaningLeadsStatePage({
     where: { ...stateFilter, leadQuality: "HIGH" },
   });
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: `Commercial Cleaning Leads in ${stateName}`,
-    description: `Get exclusive commercial cleaning leads and janitorial appointments in ${stateName}. Pre-qualified businesses, no cold calling.`,
-    url: `${BASE_URL}/commercial-cleaning-leads/${stateSlug}`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_NAME,
-    },
-    mainEntity: {
-      "@type": "Service",
-      name: `Commercial Cleaning Lead Generation in ${stateName}`,
-      areaServed: {
-        "@type": "State",
-        name: stateName,
-      },
-      description: `Pre-qualified commercial cleaning leads and janitorial appointments for ${stateName}. We book meetings with decision-makers so you can close more contracts.`,
-    },
-  };
+  const statePageUrl = buildCanonical(`/commercial-cleaning-leads/${stateSlug}`);
+  const serviceJsonLd = getServiceJsonLd({
+    name: `Commercial Cleaning Lead Generation in ${stateName}`,
+    description: `Pre-qualified commercial cleaning leads and janitorial appointments for ${stateName}. We book meetings with decision-makers so you can close more contracts.`,
+    url: statePageUrl,
+    areaServed: stateName,
+  });
+  const breadcrumbJsonLd = getBreadcrumbJsonLd([
+    { name: SITE_NAME, path: "" },
+    { name: "Commercial Cleaning Leads", path: "/commercial-cleaning-leads" },
+    { name: stateName, path: `/commercial-cleaning-leads/${stateSlug}` },
+  ]);
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <HeroSub
         title={`Commercial Cleaning Leads in ${stateName}`}

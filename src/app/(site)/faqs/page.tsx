@@ -4,10 +4,12 @@ import Link from "next/link";
 import React from "react";
 import { Metadata } from "next";
 import { SITE_NAME } from "@/data/seo-keywords";
+import { buildCanonical } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: `FAQs | ${SITE_NAME} — Commercial Cleaning Leads & Janitorial Appointments`,
+  title: `FAQs — Commercial Cleaning Leads & Janitorial Appointments`,
   description: `Frequently asked questions about commercial cleaning leads, janitorial appointments, and how we book pre-qualified appointments for cleaning companies. No cold calling — we generate exclusive leads for you.`,
+  alternates: { canonical: buildCanonical("/faqs") },
   keywords: [
     "janitorial appointments FAQ",
     "commercial cleaning leads questions",
@@ -19,6 +21,12 @@ export const metadata: Metadata = {
     title: `FAQs | ${SITE_NAME}`,
     description: `Common questions about commercial cleaning leads and janitorial appointment setting. Get answers before you start.`,
     type: "website",
+    url: buildCanonical("/faqs"),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `FAQs | ${SITE_NAME}`,
+    description: `Common questions about commercial cleaning leads and janitorial appointment setting.`,
   },
 };
 

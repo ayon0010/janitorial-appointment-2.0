@@ -3,14 +3,16 @@ import ContactInfo from "@/components/Contact/ContactInfo";
 import Location from "@/components/Contact/OfficeLocation";
 import HeroSub from "@/components/SharedComponent/HeroSub";
 import { Metadata } from "next";
+import { buildCanonical } from "@/lib/seo";
 
 const CONTACT_EMAIL = "contact@janitorialappointment.com";
 const FACEBOOK_URL = "https://www.facebook.com/commercialcleaningleads/";
 const SITE_NAME = "Janitorial Appointments";
 
 export const metadata: Metadata = {
-  title: `Contact Us | ${SITE_NAME} — Commercial Cleaning Leads & Janitorial Appointments`,
+  title: `Contact Us — Commercial Cleaning Leads & Janitorial Appointments`,
   description: `Contact ${SITE_NAME} for commercial cleaning leads and janitorial appointment setting. Email us at ${CONTACT_EMAIL}. Based in Brooklyn, NY — serving cleaning companies nationwide.`,
+  alternates: { canonical: buildCanonical("/contact") },
   keywords: [
     "contact janitorial appointments",
     "commercial cleaning leads contact",
@@ -22,6 +24,12 @@ export const metadata: Metadata = {
     title: `Contact | ${SITE_NAME}`,
     description: `Get in touch for commercial cleaning leads and janitorial appointments. ${CONTACT_EMAIL}. Brooklyn, NY.`,
     type: "website",
+    url: buildCanonical("/contact"),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Contact | ${SITE_NAME}`,
+    description: `Get in touch for commercial cleaning leads and janitorial appointments. Brooklyn, NY.`,
   },
 };
 

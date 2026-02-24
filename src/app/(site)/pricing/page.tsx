@@ -3,16 +3,25 @@ import HeroSub from '@/components/SharedComponent/HeroSub'
 import ContactForm from '@/components/Contact/Form'
 import React from 'react'
 import { Metadata } from 'next'
+import { buildCanonical } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Pricing | Commercial Cleaning Leads & Janitorial Appointment Setting',
   description:
     'Transparent pricing for commercial cleaning leads and janitorial appointment setting. Monthly and annual plans. Get a custom quote for direct leads, dedicated teams, or cold calling agents.',
+  alternates: { canonical: buildCanonical('/pricing') },
   openGraph: {
     title: 'Pricing | Commercial Cleaning Leads & Janitorial Services',
     description:
       'See our plans for commercial cleaning leads and appointment setting. Custom quotes available. Based in New York, serving the US.',
     type: 'website',
+    url: buildCanonical('/pricing'),
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pricing | Commercial Cleaning Leads & Janitorial Services',
+    description:
+      'See our plans for commercial cleaning leads and appointment setting. Custom quotes available.',
   },
 }
 

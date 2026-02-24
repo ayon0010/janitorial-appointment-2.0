@@ -10,12 +10,11 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
+import { buildCanonical, getBreadcrumbJsonLd } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ state: string; leadId: string }>;
 };
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janitorialappointments.com";
 
 export const revalidate = 60;
 
@@ -50,10 +49,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? `${lead.title}${lead.facilityType ? ` (${lead.facilityType})` : ""} – commercial cleaning lead in ${stateName}. ${locationText ? `${locationText}.` : ""} Email us to buy this lead.`
       : `${lead.title} – commercial cleaning lead in ${stateName}. Email us to buy this lead.`;
 
-  const canonical = `${BASE_URL}/commercial-cleaning-leads/${stateSlug}/${leadId}`;
+  const canonical = buildCanonical(`/commercial-cleaning-leads/${stateSlug}/${leadId}`);
+  const fullTitle = `${lead.title} – Commercial Cleaning Lead in ${stateName} | ${SITE_NAME}`;
 
   return {
-    title,
+    title: `${lead.title} – Commercial Cleaning Lead in ${stateName}`,
     description,
     keywords: [
       `${lead.title} commercial cleaning lead`,
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "pre-qualified cleaning appointment",
     ].filter(Boolean),
     openGraph: {
-      title,
+      title: fullTitle,
       description,
       type: "website",
       url: canonical,
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: fullTitle,
       description,
     },
     alternates: { canonical },
@@ -113,6 +113,7 @@ export default async function LeadDetailPage({ params }: Props) {
           .join(" – ")
       : null;
 
+  const leadPageUrl = buildCanonical(`/commercial-cleaning-leads/${stateSlug}/${leadId}`);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Place",
@@ -123,15 +124,19 @@ export default async function LeadDetailPage({ params }: Props) {
       addressRegion: lead.state ?? undefined,
     },
     description: `Commercial cleaning lead: ${lead.title} in ${displayState}.`,
-    url: `${BASE_URL}/commercial-cleaning-leads/${stateSlug}/${leadId}`,
+    url: leadPageUrl,
     publisher: {
       "@type": "Organization",
       name: SITE_NAME,
     },
   };
-
+  const breadcrumbJsonLd = getBreadcrumbJsonLd([
+    { name: SITE_NAME, path: "" },
+    { name: "Commercial Cleaning Leads", path: "/commercial-cleaning-leads" },
+    { name: stateName, path: `/commercial-cleaning-leads/${stateSlug}` },
+    { name: lead.title, path: `/commercial-cleaning-leads/${stateSlug}/${leadId}` },
+  ]);
   const CONTACT_EMAIL = "contact@janitorialappointment.com";
-  const leadPageUrl = `${BASE_URL}/commercial-cleaning-leads/${stateSlug}/${leadId}`;
   const buyLeadSubject = encodeURIComponent(`Buy lead: ${lead.title} (${displayState})`);
   const buyLeadBody = encodeURIComponent(
     [
@@ -178,6 +183,10 @@ export default async function LeadDetailPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <HeroSub
         title={lead.title}

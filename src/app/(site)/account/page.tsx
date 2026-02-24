@@ -5,10 +5,13 @@ import AccountForm from './AccountForm'
 import HeroSub from '@/components/SharedComponent/HeroSub'
 import { Metadata } from 'next'
 import { US_STATES, US_STATE_CODES } from '@/data/seo-keywords'
+import { buildCanonical } from '@/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'My Account | Janitorial Appointments',
+  title: 'My Account',
   description: 'View and update your account details and service area.',
+  alternates: { canonical: buildCanonical('/account') },
+  robots: { index: false, follow: true },
 }
 
 export default async function AccountPage() {
