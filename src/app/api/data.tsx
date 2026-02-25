@@ -137,6 +137,8 @@ export const sections = {
   // Logged‑in experience & platform links
   platform: [
     { name: 'Book an Appointment', href: '/contact#appointment' },
+    { name: 'Get Clients', href: '/how-to-get-more-commercial-cleaning-clients' },
+    { name: 'Grow Your Business', href: '/how-to-grow-a-janitorial-business' },
   ],
 };
 
