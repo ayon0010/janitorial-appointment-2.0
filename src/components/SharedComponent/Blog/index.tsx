@@ -2,16 +2,22 @@ import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
 import BlogCard from './blogCard'
-import { getAllPosts } from '@/utils/markdown'
+import { prisma } from '@/lib/prisma'
+import { BlogPost } from '@prisma/client'
 
-const Blog: React.FC = () => {
-  const posts = getAllPosts([
-    'title',
-    'date',
-    'excerpt',
-    'coverImage',
-    'slug',
-  ]).slice(0, 3)
+const Blog: React.FC = async () => {
+
+  const post = await prisma.blogPost.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: 3,
+  })
+  const posts = post.map((b: BlogPost) => ({
+    title: b.title,
+    slug: b.slug,
+    excerpt: b.metaDescription ?? undefined,
+    coverImage: b.featuredImage ?? '/images/logo/logo.svg',
+    date: b.createdAt.toISOString(),
+  }))
 
   return (
     <section
@@ -27,7 +33,7 @@ const Blog: React.FC = () => {
             Latest blog & news
           </h2>
           <Link
-            href='#'
+            href='/blog'
             className='flex items-center gap-3 text-base text-secondary dark:text-white dark:hover:text-primary font-medium hover:text-primary sm:pb-0 pb-3'
             data-aos='fade-left'
             data-aos-delay='200'

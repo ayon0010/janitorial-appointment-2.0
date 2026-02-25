@@ -22,11 +22,6 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
                         />
                     </Link>
                 </div>
-                <div className="absolute top-0 bg-primary py-2 ml-4 mt-4 px-5 rounded-sm">
-                    <span className="text-white font-medium text-sm">
-                        Pricing
-                    </span>
-                </div>
                 <div>
                     <h3>
                         <Link
