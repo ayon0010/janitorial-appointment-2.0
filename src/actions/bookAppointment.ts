@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
+import { sendAppointmentNotificationEmail } from '@/lib/resend'
 
 /** Next.js redirect() throws; rethrow so it isn't treated as a real error in catch. */
 function isRedirectError(e: unknown): boolean {
@@ -35,6 +36,13 @@ export async function bookAppointment(formData: FormData): Promise<void> {
         serviceArea: (serviceArea ?? '') as string,
         termsAndConditions,
       },
+    })
+    await sendAppointmentNotificationEmail({
+      firstName: firstName as string,
+      lastName: lastName as string,
+      email: email as string,
+      company: company as string,
+      serviceArea: (serviceArea ?? '') as string,
     })
     redirect('/?booked=1')
   } catch (error) {

@@ -75,3 +75,56 @@ function escapeHtml(s: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 }
+
+const CONTACT_NOTIFY_EMAIL = process.env.CONTACT_NOTIFY_EMAIL || 'shariar.ayon128@gmail.com'
+
+export async function sendAppointmentNotificationEmail(options: {
+  firstName: string
+  lastName: string
+  email: string
+  company: string
+  serviceArea: string
+}) {
+  const { firstName, lastName, email, company, serviceArea } = options
+  const subject = `New appointment: ${escapeHtml(firstName)} ${escapeHtml(lastName)} (${escapeHtml(company)})`
+  return sendEmail({
+    to: CONTACT_NOTIFY_EMAIL,
+    subject,
+    html: `
+      <p>A new appointment was booked on ${SITE_NAME}.</p>
+      <p><strong>Name:</strong> ${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
+      <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
+      <p><strong>Company:</strong> ${escapeHtml(company)}</p>
+      <p><strong>Service area:</strong> ${escapeHtml(serviceArea || '—')}</p>
+      <p>— ${SITE_NAME}</p>
+    `,
+  })
+}
+
+export async function sendContactNotificationEmail(options: {
+  companyName: string
+  email: string
+  contactNumber: string
+  serviceZipCodes: string
+  dncList?: string | null
+}) {
+  const { companyName, email, contactNumber, serviceZipCodes, dncList } = options
+  const subject = `New contact: ${escapeHtml(companyName)}`
+  const dncSection = dncList?.trim()
+    ? `<p><strong>DNC list:</strong></p><pre style="white-space:pre-wrap;font-size:12px;background:#f5f5f5;padding:8px;border-radius:4px;">${escapeHtml(dncList.trim())}</pre>`
+    : ''
+  return sendEmail({
+    to: CONTACT_NOTIFY_EMAIL,
+    subject,
+    html: `
+      <p>A new contact form submission was received on ${SITE_NAME}.</p>
+      <p><strong>Company:</strong> ${escapeHtml(companyName)}</p>
+      <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
+      <p><strong>Contact number:</strong> ${escapeHtml(contactNumber)}</p>
+      <p><strong>Service zip codes:</strong></p>
+      <pre style="white-space:pre-wrap;font-size:12px;background:#f5f5f5;padding:8px;border-radius:4px;">${escapeHtml(serviceZipCodes)}</pre>
+      ${dncSection}
+      <p>— ${SITE_NAME}</p>
+    `,
+  })
+}

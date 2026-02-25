@@ -1,8 +1,32 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { createContact } from '@/actions/contact'
 
 const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { contactEmail?: string }) => {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
+  const [message, setMessage] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setStatus('loading')
+    setMessage('')
+    const form = e.currentTarget
+    const formData = new FormData(form)
+
+    try {
+      await createContact(formData)
+      setStatus('done')
+      setMessage('Message sent. We’ll get back to you soon.')
+      form.reset()
+    } catch (err) {
+      setStatus('error')
+      setMessage(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+    }
+  }
+
   return (
     <>
       <section className='dark:bg-darkmode pt-0 md:pb-24 pb-10' id='appointment'>
@@ -19,7 +43,7 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                 </Link>
                 — we reply to every message.
               </p>
-              <form className='flex flex-wrap w-full m-auto justify-between'>
+              <form onSubmit={handleSubmit} className='flex flex-wrap w-full m-auto justify-between'>
                 <div className='sm:flex gap-3 w-full'>
                   <div className='mx-0 my-2.5 flex-1'>
                     <label
@@ -34,6 +58,7 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                       className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
                       type='text'
                       required
+                      disabled={status === 'loading'}
                     />
                   </div>
                   <div className='mx-0 my-2.5 flex-1'>
@@ -49,6 +74,7 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                       placeholder='you@company.com'
                       className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
                       required
+                      disabled={status === 'loading'}
                     />
                   </div>
                 </div>
@@ -65,6 +91,7 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                     placeholder='e.g. +1 234 567 8900'
                     className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
                     required
+                    disabled={status === 'loading'}
                   />
                 </div>
                 <div className='mx-0 my-2.5 w-full'>
@@ -80,6 +107,7 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                     placeholder='Enter zip codes you serve (one per line or comma-separated)'
                     className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0 resize-y min-h-[100px]'
                     required
+                    disabled={status === 'loading'}
                   />
                 </div>
                 <div className='mx-0 my-2.5 w-full'>
@@ -94,13 +122,23 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                     rows={4}
                     placeholder='Do Not Call list — numbers or addresses to exclude (optional)'
                     className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0 resize-y min-h-[100px]'
+                    disabled={status === 'loading'}
                   />
                 </div>
+                {message && (
+                  <p
+                    className={`w-full mx-0 my-2.5 text-sm ${
+                      status === 'error' ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'
+                    }`}>
+                    {message}
+                  </p>
+                )}
                 <div className='mx-0 my-2.5 w-full'>
                   <button
                     type='submit'
-                    className='bg-primary rounded-lg text-white py-4 px-8 mt-4 inline-block hover:bg-blue-700 transition-colors'>
-                    Send message
+                    disabled={status === 'loading'}
+                    className='bg-primary rounded-lg text-white py-4 px-8 mt-4 inline-block hover:bg-blue-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed'>
+                    {status === 'loading' ? 'Sending…' : 'Send message'}
                   </button>
                 </div>
               </form>

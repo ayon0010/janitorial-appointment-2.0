@@ -118,3 +118,13 @@ model NewsletterSubscriber {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+model Contact {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  companyName     String
+  email           String
+  contactNumber   String
+  serviceZipCodes String
+  dncList         String?
+  createdAt       DateTime @default(now())
+}

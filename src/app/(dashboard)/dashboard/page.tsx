@@ -2,15 +2,17 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 
 export default async function DashboardOverviewPage() {
-  const [messagesCount, usersCount, leadsCount, blogsCount] = await Promise.all([
+  const [messagesCount, usersCount, leadsCount, blogsCount, contactsCount] = await Promise.all([
     prisma.message.count(),
     prisma.user.count(),
     prisma.lead.count(),
     prisma.blogPost.count(),
+    prisma.contact.count(),
   ])
 
   const cards = [
     { label: 'Booked Appointments', count: messagesCount, href: '/dashboard/appointments' },
+    { label: 'Contacts', count: contactsCount, href: '/dashboard/contacts' },
     { label: 'Users', count: usersCount, href: '/dashboard/users' },
     { label: 'Leads', count: leadsCount, href: '/dashboard/leads' },
     { label: 'Blogs', count: blogsCount, href: '/dashboard/blogs' },
