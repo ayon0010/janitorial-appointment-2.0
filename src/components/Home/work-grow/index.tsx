@@ -48,12 +48,12 @@ const WorkGrow = () => {
                   <div className='absolute w-full h-full bg-black/40 inset-0'></div>
                   <div className='absolute sm:top-10 top-6 sm:left-10 left-6 group'>
                     <Link
-                      href={`/portfolio/${item.slug}`}
+                      href={`/${item.slug}`}
                       className='sm:text-[26px] leading-[2.11rem] text-20 text-white pb-6 font-bold max-w-356 inline-block'>
                       {item.title}
                     </Link>
                     <Link
-                      href={`/portfolio/${item.slug}`}
+                      href={`/${item.slug}`}
                       className='flex items-center gap-3 text-white sm:text-base text-sm font-normal group-hover:opacity-60'>
                       Learn More
                       <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-1"></i>
