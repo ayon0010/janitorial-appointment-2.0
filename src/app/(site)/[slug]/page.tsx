@@ -44,6 +44,17 @@ export async function generateMetadata({ params }: Props) {
     }
 }
 
+
+
+export async function generateStaticParams() {
+    const posts = await prisma.blogPost.findMany({
+        select: { slug: true },
+    })
+    return posts.map((post) => ({ slug: post.slug }))
+}
+
+
+
 export default async function Post({ params }: Props) {
     const { slug } = await params
 
@@ -82,14 +93,14 @@ export default async function Post({ params }: Props) {
             <section className='dark:bg-darkmode py-20'>
                 <div className='container'>
                     <div className='grid md:grid-cols-12 grid-cols-1 items-center'>
-                    <div className='col-span-8'>
-                        <span className='text-base text-SlateBlue pr-7 border-r border-solid border-BorderLine dark:border-dark_border w-fit dark:text-white/50'>
-                            {format(dbPost.createdAt, 'dd MMM yyyy')}
-                        </span>
-                        <h2 className='text-secondary pt-7 text-[40px] leading-12 font-bold dark:text-white'>
-                            {dbPost.title}
-                        </h2>
-                    </div>
+                        <div className='col-span-8'>
+                            <span className='text-base text-SlateBlue pr-7 border-r border-solid border-BorderLine dark:border-dark_border w-fit dark:text-white/50'>
+                                {format(dbPost.createdAt, 'dd MMM yyyy')}
+                            </span>
+                            <h2 className='text-secondary pt-7 text-[40px] leading-12 font-bold dark:text-white'>
+                                {dbPost.title}
+                            </h2>
+                        </div>
                     </div>
                 </div>
             </section>
