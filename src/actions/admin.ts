@@ -287,6 +287,35 @@ export async function deleteBlog(id: string) {
   revalidatePath('/dashboard')
 }
 
+export async function updateBlog(id: string, formData: FormData) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+  const userRoles = session.user.roles as UserRole[] | undefined
+  if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
+
+  const title = formData.get('title') as string
+  const slug = formData.get('slug') as string
+  const excerpt = (formData.get('excerpt') as string) || null
+  const content = (formData.get('content') as string) || null
+  const coverImage = (formData.get('coverImage') as string) || null
+
+  if (!title || !slug) throw new Error('Title and slug required')
+
+  await prisma.blogPost.update({
+    where: { id },
+    data: {
+      title,
+      slug: slug.trim().toLowerCase().replace(/\s+/g, '-'),
+      content: content ?? '',
+      featuredImage: coverImage,
+      contentHtml: content ?? '',
+      metaDescription: excerpt,
+    },
+  })
+  revalidatePath('/dashboard/blogs')
+  revalidatePath('/dashboard')
+}
+
 export async function getNewsletterSubscriberCount() {
   const session = await auth()
   if (!session?.user?.id) throw new Error('Unauthorized')

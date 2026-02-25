@@ -26,6 +26,7 @@ export const metadata: Metadata = {
   },
 }
 
+export const dynamic = 'force-dynamic'
 
 async function getPosts(): Promise<Blog[]> {
   const dbPosts = await prisma.blogPost.findMany({ orderBy: { createdAt: 'desc' } })
