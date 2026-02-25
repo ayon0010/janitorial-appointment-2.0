@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   // Override or extend per-route via generateMetadata / page metadata
 };
 
+
+export const revalidate = 3600 // 1 hour
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
