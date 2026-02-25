@@ -17,7 +17,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
                             className="w-full transition duration-0.4s group-hover:scale-125"
                             width={408}
                             height={272}
-                            style={{ width: '100%', height: 'auto' }}
+                            style={{ width: '100%', height: '272px' }}
                             quality={100}
                         />
                     </Link>
