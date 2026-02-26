@@ -1,6 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
 
+const WHATSAPP_NUMBER = '8801568868704'
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`
+
 const Location = ({
   contactEmail = 'contact@janitorialappointment.com',
   facebookUrl = 'https://www.facebook.com/commercialcleaningleads/',
@@ -35,6 +38,13 @@ const Location = ({
                 rel='noopener noreferrer'
                 className='sm:text-2xl text-xl text-primary dark:text-lightPrimary font-medium hover:underline w-fit'>
                 Facebook — Janitorial Appointment & Commercial Cleaning Leads
+              </Link>
+              <Link
+                href={WHATSAPP_URL}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='sm:text-2xl text-xl text-primary dark:text-lightPrimary font-medium hover:underline w-fit'>
+                WhatsApp — Chat with us
               </Link>
             </div>
           </div>

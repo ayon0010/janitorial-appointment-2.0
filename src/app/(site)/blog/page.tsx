@@ -8,6 +8,11 @@ import type { BlogPost as BlogPostModel } from '@prisma/client'
 import { SITE_NAME } from '@/data/seo-keywords'
 import { buildCanonical } from '@/lib/seo'
 
+
+
+export const revalidate = 60 * 60; // 1 hour
+
+
 export const metadata: Metadata = {
   title: `Blog | ${SITE_NAME}`,
   description:
@@ -26,19 +31,33 @@ export const metadata: Metadata = {
   },
 }
 
-async function getPosts(): Promise<Blog[]> {
-  const dbPosts = await prisma.blogPost.findMany({ orderBy: { createdAt: 'desc' } })
-  return dbPosts.map((b: BlogPostModel) => ({
+const PAGE_SIZE = 9
+
+type BlogPageProps = {
+  searchParams?: { page?: string }
+}
+
+const BlogPage = async ({ searchParams }: BlogPageProps) => {
+  const pageFromQuery = searchParams?.page ? Number(searchParams.page) : 1
+  const currentPage = Number.isNaN(pageFromQuery) || pageFromQuery < 1 ? 1 : pageFromQuery
+
+  const [totalCount, dbPosts] = await Promise.all([
+    prisma.blogPost.count(),
+    prisma.blogPost.findMany({
+      orderBy: { createdAt: 'desc' },
+      skip: (currentPage - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+  ])
+
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
+  const posts: Blog[] = dbPosts.map((b: BlogPostModel) => ({
     title: b.title,
     slug: b.slug,
     excerpt: b.metaDescription ?? undefined,
     coverImage: b.featuredImage ?? '/images/logo/logo.svg',
     date: b.createdAt.toISOString(),
   }))
-}
-
-const BlogPage = async () => {
-  const posts = await getPosts()
 
   return (
     <>
@@ -46,7 +65,7 @@ const BlogPage = async () => {
         title='Blog'
         description='Discover a wealth of insightful materials meticulously crafted to provide you with a comprehensive understanding of the latest trends.'
       />
-      <BlogList posts={posts} />
+      <BlogList posts={posts} page={currentPage} totalPages={totalPages} />
     </>
   )
 }
