@@ -112,7 +112,7 @@ export default async function Post({ params }: Props) {
                                 <div className='mb-[60px] h-[300px] md:h-[400px] lg:h-[400px] relative'>
                                     <Image
                                         src={dbPost.featuredImage}
-                                        alt=''
+                                        alt={dbPost.title ?? 'image'}
                                         fill
                                         className='object-cover object-center rounded-lg'
                                     />

@@ -10,17 +10,33 @@ type Props = {
 const BlogFeatureImage = ({ featuredImage, setFeaturedImage }: Props) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
-    const reader = new FileReader()
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        setFeaturedImage(reader.result)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const res = await fetch('/api/blog-image-upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+
+      if (!res.ok || !data?.success || !data?.url) {
+        console.error('Feature image upload failed:', data)
+        return
       }
+
+      // Store Cloudinary URL so it is saved in DB and used publicly
+      setFeaturedImage(data.url as string)
+    } catch (err) {
+      console.error('Feature image upload error:', err)
+    } finally {
+      // allow re-selecting same file
+      e.target.value = ''
     }
-    reader.readAsDataURL(file)
   }
 
   return (

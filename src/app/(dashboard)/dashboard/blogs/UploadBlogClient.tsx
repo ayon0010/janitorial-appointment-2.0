@@ -224,8 +224,8 @@ const UploadBlogClient: React.FC<Props> = ({ initialPosts }) => {
             {message && (
               <span
                 className={`text-sm ${status === 'error'
-                    ? 'text-red-600 dark:text-red-400'
-                    : 'text-green-600 dark:text-green-400'
+                  ? 'text-red-600 dark:text-red-400'
+                  : 'text-green-600 dark:text-green-400'
                   }`}
               >
                 {message}
@@ -251,8 +251,8 @@ const UploadBlogClient: React.FC<Props> = ({ initialPosts }) => {
                 type="button"
                 onClick={() => handleSelectPost(post)}
                 className={`w-full text-left rounded-lg border px-3 py-2.5 text-sm transition-colors cursor-pointer ${editingId === post.id
-                    ? 'border-primary bg-primary/5 text-secondary dark:text-white'
-                    : 'border-gray-200 bg-white hover:bg-gray-50 dark:border-white/10 dark:bg-darkmode dark:hover:bg-white/10 text-secondary dark:text-white'
+                  ? 'border-primary bg-primary/5 text-secondary dark:text-white'
+                  : 'border-gray-200 bg-white hover:bg-gray-50 dark:border-white/10 dark:bg-darkmode dark:hover:bg-white/10 text-secondary dark:text-white'
                   }`}
               >
                 <div className="flex items-start justify-between gap-2">

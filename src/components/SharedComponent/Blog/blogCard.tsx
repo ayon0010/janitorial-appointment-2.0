@@ -13,7 +13,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
                     <Link href={`/${slug}`} aria-label="blog cover" className="block">
                         <Image
                             src={coverImage!}
-                            alt="image"
+                            alt={title ?? 'image'}
                             className="w-full transition duration-0.4s group-hover:scale-125"
                             width={408}
                             height={272}
