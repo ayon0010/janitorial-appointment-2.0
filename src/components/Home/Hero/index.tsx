@@ -140,7 +140,7 @@ const Hero = ({ searchParams }: HeroProps) => {
                 data-aos-duration="1000"
               >
                 <form action={bookAppointment}>
-                  <h6 className="text-white sm:text-[26px] leading-[2.11rem] text-xl font-bold pb-5">
+                  <h3 className="text-white sm:text-[26px] leading-[2.11rem] text-xl font-bold pb-5">
                     Book an appointment with us
                   </h6>
                   {error && (
