@@ -9,8 +9,7 @@ import { SITE_NAME } from '@/data/seo-keywords'
 import { buildCanonical } from '@/lib/seo'
 
 
-
-export const revalidate = 60 * 60; // 1 hour
+export const revalidate = 60;
 
 
 export const metadata: Metadata = {
