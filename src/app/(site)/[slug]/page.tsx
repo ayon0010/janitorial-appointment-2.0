@@ -109,12 +109,13 @@ export default async function Post({ params }: Props) {
                     <div className='flex flex-wrap justify-center'>
                         <div className='w-full'>
                             {dbPost.featuredImage && (
-                                <div className='mb-[60px] h-[300px] md:h-[400px] lg:h-[400px] relative'>
+                                <div className='mb-[60px] aspect-[1920/1080] max-h-[600px] relative w-full'>
                                     <Image
                                         src={dbPost.featuredImage}
                                         alt={dbPost.title ?? 'image'}
                                         fill
-                                        className='object-cover object-center rounded-lg'
+                                        priority
+                                        className='rounded-lg w-full h-full object-cover object-center'
                                     />
                                 </div>
                             )}
