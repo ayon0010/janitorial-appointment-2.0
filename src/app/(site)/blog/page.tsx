@@ -24,12 +24,14 @@ export const metadata: Metadata = {
 }
 
 const BlogPage = async () => {
-  const res = await fetch('/api/blog', {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog`, {
     next: {
       revalidate: 60,
     }
   })
+  
   const posts = await res.json();
+
 
   return (
     <>
