@@ -139,6 +139,8 @@ export const sections = {
     { name: 'Book an Appointment', href: '/contact#appointment' },
     { name: 'Get Clients', href: '/how-to-get-more-commercial-cleaning-clients' },
     { name: 'Grow Your Business', href: '/how-to-grow-a-janitorial-business' },
+    { name: 'Privacy Policy', href: '/privacy-policy' },
+    { name: 'Terms and Conditions', href: '/terms-and-conditions' }
   ],
 };
 
