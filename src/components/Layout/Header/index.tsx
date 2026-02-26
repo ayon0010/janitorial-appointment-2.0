@@ -67,6 +67,11 @@ const Header: React.FC = () => {
     }
   }, [navbarOpen])
 
+  // Close mobile menu when route changes (e.g. after clicking a nav link)
+  useEffect(() => {
+    setNavbarOpen(false)
+  }, [pathUrl])
+
   return (
     <>
       {/* Top bar: email, WhatsApp, Facebook, hours */}

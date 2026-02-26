@@ -108,9 +108,9 @@ export default async function LeadDetailPage({ params }: Props) {
   const priceText =
     lead.estimatedMinValue != null || lead.estimatedMaxValue != null
       ? [lead.estimatedMinValue, lead.estimatedMaxValue]
-          .filter((n) => n != null)
-          .map((n) => `$${n?.toLocaleString()}`)
-          .join(" – ")
+        .filter((n) => n != null)
+        .map((n) => `$${n?.toLocaleString()}`)
+        .join(" – ")
       : null;
 
   const leadPageUrl = buildCanonical(`/commercial-cleaning-leads/${stateSlug}/${leadId}`);
@@ -155,7 +155,8 @@ export default async function LeadDetailPage({ params }: Props) {
       "Thank you.",
     ].join("\n")
   );
-  const buyLeadMailto = `mailto:${CONTACT_EMAIL}?subject=${buyLeadSubject}&body=${buyLeadBody}`;
+  // Gmail compose URL — opens Gmail in browser on desktop when no default email app
+  const buyLeadGmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${buyLeadSubject}&body=${buyLeadBody}`;
 
   const DetailRow = ({
     label,
@@ -233,7 +234,9 @@ export default async function LeadDetailPage({ params }: Props) {
               Contact
             </Link>
             <a
-              href={buyLeadMailto}
+              href={buyLeadGmailUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 py-3 rounded-xl border-2 border-primary text-primary dark:text-lightPrimary font-semibold hover:bg-primary/10 transition-colors"
             >
               Buy this lead – email us
