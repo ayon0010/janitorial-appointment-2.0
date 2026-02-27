@@ -218,12 +218,12 @@ const Hero = ({ searchParams }: HeroProps) => {
                     </div>
                     <label className="ms-2 text-base font-normal text-white dark:text-gray-300">
                       I have read and acknowledge the{" "}
-                      <a
-                        href="#"
+                      <Link
+                        href="/terms-and-conditions"
                         className="text-white underline dark:text-white"
                       >
                         Terms and Conditions
-                      </a>
+                      </Link>
                       .
                     </label>
                   </div>
