@@ -2,7 +2,7 @@ import { SignUpFormSchema } from "@/components/schema/SignUpSchema";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
-import { sendEmail, isResendConfigured } from "@/lib/resend";
+import { sendEmail, isResendConfigured, sendWelcomeEmail } from "@/lib/resend";
 
 const ADMIN_SIGNUP_EMAIL = "shariar.ayon128@gmail.com";
 
@@ -34,12 +34,18 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, message: 'Failed to create user' }, { status: 500 });
     }
 
-    // Notify admin about new signup (non-blocking for the user)
+    // Send welcome email to the new user & notify admin about new signup (both non-blocking for the user)
     if (isResendConfigured()) {
         const safeCompany = validation.data.companyName || "Unknown company";
         const safeEmail = validation.data.email;
         const safeState = validation.data.serviceState || "N/A";
         const safeCities = cityArray.length ? cityArray.join(", ") : "N/A";
+
+        void sendWelcomeEmail({
+            to: safeEmail,
+            companyName: safeCompany || "there",
+        });
+
         void sendEmail({
             to: ADMIN_SIGNUP_EMAIL,
             subject: `New user signup: ${safeCompany} (${safeEmail})`,

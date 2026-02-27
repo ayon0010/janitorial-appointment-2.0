@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { SignUpFormSchema } from '@/components/schema/SignUpSchema'
 import { redirect } from 'next/navigation'
-import { sendEmail, isResendConfigured } from '@/lib/resend'
+import { sendEmail, isResendConfigured, sendWelcomeEmail } from '@/lib/resend'
 
 const ADMIN_SIGNUP_EMAIL = 'shariar.ayon128@gmail.com'
 
@@ -69,11 +69,17 @@ export async function signUp(formData: FormData): Promise<void> {
       update: {},
     })
 
-    // Notify admin about new signup (non-blocking)
+    // Send welcome email to the new user & notify admin about new signup (both non-blocking)
     if (isResendConfigured()) {
-      const safeCompany = (companyName as string) || 'Unknown company'
+      const safeCompany = (companyName as string) || 'there'
       const safeState = (serviceState as string) || 'N/A'
       const safeCities = cityArray.length ? cityArray.join(', ') : 'N/A'
+
+      void sendWelcomeEmail({
+        to: emailStr,
+        companyName: safeCompany,
+      })
+
       void sendEmail({
         to: ADMIN_SIGNUP_EMAIL,
         subject: `New user signup: ${safeCompany} (${emailStr})`,

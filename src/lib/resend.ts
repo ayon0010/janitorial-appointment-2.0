@@ -34,6 +34,23 @@ export async function sendEmail(options: {
   return { success: true, data }
 }
 
+export async function sendWelcomeEmail(options: { to: string; companyName: string }) {
+  const { to, companyName } = options
+  const safeCompany = companyName?.trim() || 'there'
+
+  return sendEmail({
+    to,
+    subject: `Welcome to ${SITE_NAME}`,
+    html: `
+      <p>Hi ${safeCompany},</p>
+      <p>Welcome to ${SITE_NAME}! Your account has been created successfully.</p>
+      <p>You can now sign in and start accessing commercial cleaning leads in your area.</p>
+      <p>If this wasn’t you, please ignore this email.</p>
+      <p>— ${SITE_NAME}</p>
+    `,
+  })
+}
+
 export async function sendLeadNotificationEmail(options: {
   to: string
   userName: string
