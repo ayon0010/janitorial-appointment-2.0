@@ -3,14 +3,19 @@ import "../globals.css";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import { ThemeProvider } from "next-themes";
-import ScrollToTop from '@/components/ScrollToTop';
+import ScrollToTop from "@/components/ScrollToTop";
 import Aoscompo from "@/utils/aos";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProvider } from "next-auth/react";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
-import { defaultMetadata, getOrganizationJsonLd, getWebsiteJsonLd } from "@/lib/seo";
+import {
+  defaultMetadata,
+  getOrganizationJsonLd,
+  getWebsiteJsonLd,
+} from "@/lib/seo";
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const dmsans = DM_Sans({ subsets: ["latin"] });
 
@@ -21,9 +26,7 @@ export const metadata: Metadata = {
   // Override or extend per-route via generateMetadata / page metadata
 };
 
-
-export const revalidate = 3600 // 1 hour
-
+export const revalidate = 3600; // 1 hour
 
 export default function RootLayout({
   children,
@@ -51,7 +54,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         )}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
         />
         <script
           type="application/ld+json"
@@ -68,6 +73,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             />
           </noscript>
         )}
+
         <SessionProvider>
           <ThemeProvider
             attribute="class"
@@ -76,7 +82,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           >
             <Aoscompo>
               <Header />
-              <NextTopLoader color='#f9c78f' />
+              <NextTopLoader color="#f9c78f" />
               {children}
               <Footer />
             </Aoscompo>
@@ -84,6 +90,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </ThemeProvider>
         </SessionProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
