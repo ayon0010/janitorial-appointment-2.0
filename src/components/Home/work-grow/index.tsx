@@ -53,6 +53,7 @@ const WorkGrow = () => {
                       {item.title}
                     </Link>
                     <Link
+                      aria-label={`Learn More about ${item.title}`}
                       href={`/${item.slug}`}
                       className='flex items-center gap-3 text-white sm:text-base text-sm font-normal group-hover:opacity-60'>
                       Learn More
