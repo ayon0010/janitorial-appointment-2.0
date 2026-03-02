@@ -121,7 +121,7 @@ const Header: React.FC = () => {
       </div>
 
       <header
-        className={`sticky h-24 top-0 py-1 z-50 w-full bg-primary transition-all ${sticky
+        className={`sticky top-0 py-1 z-50 w-full bg-primary transition-all ${sticky
           ? 'shadow-lg dark:shadow-darkmd bg-primary dark:bg-primary'
           : 'shadow-none'
           }`}>
@@ -137,8 +137,8 @@ const Header: React.FC = () => {
                 unoptimized
               />
             </div>
-            <span className='text-xl sm:text-2xl font-bold text-white dark:text-white'>
-              Janitorial Appointments
+            <span className='text-lg sm:text-xl font-bold text-white dark:text-white'>
+              Janitorial  Appointments
             </span>
           </Link>
           <ul className='hidden lg:flex grow items-center justify-center gap-6'>

@@ -10,4 +10,5 @@ export const headerData: HeaderItem[] = [
     href: "/blog",
   },
   { label: "Contact", href: "/contact" },
+  { label: 'Services', href: "/janitorial-lead-generation" },
 ];
