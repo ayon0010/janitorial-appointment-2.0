@@ -109,7 +109,9 @@
   section {
     @apply md:py-20 py-10;
   }
-
+  /* body,html{
+    @apply overflow-x-hidden;
+  } */
 
   input::placeholder,
   textarea::placeholder {
