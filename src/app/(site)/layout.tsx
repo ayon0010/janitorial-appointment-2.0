@@ -16,6 +16,7 @@ import {
 } from "@/lib/seo";
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import ChatProvider from "@/Providers/ChatProviders";
 
 const dmsans = DM_Sans({ subsets: ["latin"] });
 
@@ -75,19 +76,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         )}
 
         <SessionProvider>
-          <ThemeProvider
-            attribute="class"
-            enableSystem={true}
-            defaultTheme="system"
-          >
-            <Aoscompo>
-              <Header />
-              <NextTopLoader color="#f9c78f" />
-              {children}
-              <Footer />
-            </Aoscompo>
-            <ScrollToTop />
-          </ThemeProvider>
+          <ChatProvider>
+            <ThemeProvider
+              attribute="class"
+              enableSystem={true}
+              defaultTheme="system"
+            >
+              <Aoscompo>
+                <Header />
+                <NextTopLoader color="#f9c78f" />
+                {children}
+                <Footer />
+              </Aoscompo>
+              <ScrollToTop />
+            </ThemeProvider>
+          </ChatProvider>
         </SessionProvider>
         <Analytics />
         <SpeedInsights />
