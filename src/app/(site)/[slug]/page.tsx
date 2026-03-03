@@ -121,7 +121,7 @@ export default async function Post({ params }: Props) {
                             )}
                             <div className='-mx-4 flex flex-wrap'>
                                 <div className='w-full px-4 lg:w-8/12'>
-                                    <div className='blog-details xl:pr-10' dangerouslySetInnerHTML={{ __html: html }} />
+                                    <div className='prose dark:prose-invert' dangerouslySetInnerHTML={{ __html: html }} />
                                 </div>
                             </div>
                         </div>
