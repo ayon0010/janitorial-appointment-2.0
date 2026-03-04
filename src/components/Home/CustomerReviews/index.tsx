@@ -33,9 +33,9 @@ const CustomerReviews = () => {
                   {review.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className='text-lg font-bold text-secondary dark:text-white'>
+                  <h3 className='text-lg font-bold text-secondary dark:text-white'>
                     {review.name}
-                  </h4>
+                  </h3>
                   <p className='text-sm text-SlateBlue dark:text-darktext'>
                     {review.company}
                   </p>

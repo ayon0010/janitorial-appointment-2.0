@@ -71,9 +71,9 @@ const ConnectWithUs = () => {
               </svg>
             </div>
             <div>
-              <h3 className='text-xl font-bold text-secondary dark:text-white mb-1'>
+              <h4 className='text-xl font-bold text-secondary dark:text-white mb-1'>
                 Follow on Facebook
-              </h3>
+              </h4>
               <p className='text-sm text-SlateBlue dark:text-darktext'>
                 Stay updated with our latest news and tips
               </p>

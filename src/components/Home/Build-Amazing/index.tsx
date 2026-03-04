@@ -133,9 +133,9 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                     <i
                       className='bg-no-repeat w-10 h-10 inline-block'
                       style={{ backgroundImage: `url(${card.iconUrl})` }}></i>
-                    <h6 className='text-[22px] leading-[2rem] font-bold text-secondary dark:text-white max-w-200 pt-3'>
+                    <h3 className='text-[22px] leading-[2rem] font-bold text-secondary dark:text-white max-w-200 pt-3'>
                       {card.title}
-                    </h6>
+                    </h3>
                     <p className='text-14 text-SlateBlue dark:text-darktext font-normal max-w-200 pt-3 pb-7'>
                       {card.description}
                     </p>

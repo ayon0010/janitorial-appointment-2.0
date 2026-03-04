@@ -58,6 +58,7 @@ const WorkGrow = () => {
                       className='flex items-center gap-3 text-white sm:text-base text-sm font-normal group-hover:opacity-60'>
                       Learn More
                       <i className="bg-[url('/images/build-amazing/right-arrow.svg')] bg-no-repeat bg-contain w-4 h-3 inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-1"></i>
+                      <span className="sr-only"> about {item.title}</span>
                     </Link>
                   </div>
                 </div>

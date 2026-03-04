@@ -140,9 +140,9 @@ const Hero = ({ searchParams }: HeroProps) => {
                 data-aos-duration="1000"
               >
                 <form action={bookAppointment}>
-                  <h3 className="text-white sm:text-[26px] leading-[2.11rem] text-xl font-bold pb-5">
+                  <h2 className="text-white sm:text-[26px] leading-[2.11rem] text-xl font-bold pb-5">
                     Book an appointment with us
-                  </h3>
+                  </h2>
                   {error && (
                     <p className="text-red-200 dark:text-red-400 text-sm mb-4" role="alert">
                       {decodeURIComponent(error)}
