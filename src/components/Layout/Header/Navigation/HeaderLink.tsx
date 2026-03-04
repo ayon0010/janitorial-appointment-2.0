@@ -18,7 +18,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   };
 
   return (
-    <div
+    <li
       className={`relative ${item.label === "Faqs" ? 'xl:block lg:hidden block' : null}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -40,7 +40,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
           ))}
         </div>
       )}
-    </div>
+    </li>
   );
 };
 
