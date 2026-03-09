@@ -32,6 +32,9 @@ export default async function AppointmentsPage() {
                     Company
                   </th>
                   <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
+                    Phone
+                  </th>
+                  <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
                     Service area
                   </th>
                 </tr>
@@ -53,6 +56,9 @@ export default async function AppointmentsPage() {
                     </td>
                     <td className="px-4 py-3 text-sm text-secondary dark:text-white">
                       {m.company}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
+                      {m.phone || '—'}
                     </td>
                     <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
                       {m.serviceArea || '—'}
