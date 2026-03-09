@@ -184,13 +184,23 @@ const Hero = ({ searchParams }: HeroProps) => {
                         required
                       />
                     </div>
-                    <div className="md:col-span-2 col-span-1">
+                    <div className="col-span-1">
                       <input
                         type="text"
                         id="company"
                         name="company"
                         className="bg-white text-darkmode text-base rounded-lg block w-full p-2.5 dark:bg-darkmode dark:placeholder:gray-400 dark:text-white focus:outline-0 focus:ring-1 focus:ring-secondary dark:focus:ring-white"
                         placeholder="Company Name"
+                        required
+                      />
+                    </div>
+                    <div className="col-span-1">
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        className="bg-white text-darkmode text-base rounded-lg block w-full p-2.5 dark:bg-darkmode dark:placeholder:gray-400 dark:text-white focus:outline-0 focus:ring-1 focus:ring-secondary dark:focus:ring-white"
+                        placeholder="Phone number"
                         required
                       />
                     </div>

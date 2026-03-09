@@ -100,9 +100,10 @@ export async function sendAppointmentNotificationEmail(options: {
   lastName: string
   email: string
   company: string
+  phone: string
   serviceArea: string
 }) {
-  const { firstName, lastName, email, company, serviceArea } = options
+  const { firstName, lastName, email, company, phone, serviceArea } = options
   const subject = `New appointment: ${escapeHtml(firstName)} ${escapeHtml(lastName)} (${escapeHtml(company)})`
   return sendEmail({
     to: CONTACT_NOTIFY_EMAIL,
@@ -111,6 +112,7 @@ export async function sendAppointmentNotificationEmail(options: {
       <p>A new appointment was booked on ${SITE_NAME}.</p>
       <p><strong>Name:</strong> ${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
       <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
+      <p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
       <p><strong>Company:</strong> ${escapeHtml(company)}</p>
       <p><strong>Service area:</strong> ${escapeHtml(serviceArea || '—')}</p>
       <p>— ${SITE_NAME}</p>

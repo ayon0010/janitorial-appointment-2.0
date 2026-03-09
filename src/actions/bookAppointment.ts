@@ -14,11 +14,12 @@ export async function bookAppointment(formData: FormData): Promise<void> {
   const lastName = formData.get('lastName')
   const email = formData.get('email')
   const company = formData.get('company')
+  const phone = formData.get('phone')
   const serviceArea = formData.get('serviceArea')
   const termsAndConditions = formData.get('termsAndConditions') === 'accepted'
 
   // Validate
-  if (!firstName || !lastName || !email || !company) {
+  if (!firstName || !lastName || !email || !company || !phone) {
     redirect('/?error=' + encodeURIComponent('All fields are required'))
   }
 
@@ -33,6 +34,7 @@ export async function bookAppointment(formData: FormData): Promise<void> {
         lastName: lastName as string,
         email: email as string,
         company: company as string,
+        phone: phone as string,
         serviceArea: (serviceArea ?? '') as string,
         termsAndConditions,
       },
@@ -42,6 +44,7 @@ export async function bookAppointment(formData: FormData): Promise<void> {
       lastName: lastName as string,
       email: email as string,
       company: company as string,
+      phone: phone as string,
       serviceArea: (serviceArea ?? '') as string,
     })
     redirect('/?booked=1')

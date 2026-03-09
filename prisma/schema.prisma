@@ -32,6 +32,7 @@ model Message {
   lastName           String
   email              String
   company            String
+  phone              String
   serviceArea        String
   termsAndConditions Boolean
   createdAt          DateTime @default(now())
