@@ -471,6 +471,92 @@ const BlogDetails = ({ contentHtml, setContentHtml, setContent }: Props) => {
           >
             <Redo2 className='w-4 h-4' />
           </button>
+
+          {/* Paragraph & headings */}
+          <button
+            type='button'
+            title='Paragraph'
+            onClick={() => editor.chain().focus().setParagraph().run()}
+            className={`border-2 border-white w-8 h-8 flex items-center justify-center rounded-sm transition-all ${
+              editor.isActive('paragraph')
+                ? 'bg-gray-100 dark:bg_white/10 text-secondary dark:text-white'
+                : 'text-black/50 hover:border-primary'
+            }`}
+          >
+            P
+          </button>
+          <button
+            type='button'
+            title='Heading 1'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+            className={`border-2 border-white w-8 h-8 flex items-center justify-center rounded-sm transition-all font-bold ${
+              editor.isActive('heading', { level: 1 })
+                ? 'bg-gray-100 dark:bg_white/10 text-secondary dark:text-white'
+                : 'text-black/50 hover:border-primary'
+            }`}
+          >
+            H1
+          </button>
+          <button
+            type='button'
+            title='Heading 2'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            className={`border-2 border-white w-8 h-8 flex items-center justify-center rounded-sm transition-all font-bold ${
+              editor.isActive('heading', { level: 2 })
+                ? 'bg-gray-100 dark:bg_white/10 text-secondary dark:text-white'
+                : 'text-black/50 hover:border-primary'
+            }`}
+          >
+            H2
+          </button>
+          <button
+            type='button'
+            title='Heading 3'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+            className={`border-2 border-white w-8 h-8 flex items-center justify-center rounded-sm transition-all font-bold ${
+              editor.isActive('heading', { level: 3 })
+                ? 'bg-gray-100 dark:bg_white/10 text-secondary dark:text-white'
+                : 'text-black/50 hover:border-primary'
+            }`}
+          >
+            H3
+          </button>
+          <button
+            type='button'
+            title='Heading 4'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+            className={`border-2 border-white w-8 h-8 flex items-center justify-center rounded-sm transition-all font-bold ${
+              editor.isActive('heading', { level: 4 })
+                ? 'bg-gray-100 dark:bg_white/10 text-secondary dark:text-white'
+                : 'text-black/50 hover:border-primary'
+            }`}
+          >
+            H4
+          </button>
+          <button
+            type='button'
+            title='Heading 5'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+            className={`border-2 border-white w-8 h-8 flex items-center justify-center rounded-sm transition-all font-bold ${
+              editor.isActive('heading', { level: 5 })
+                ? 'bg-gray-100 dark:bg_white/10 text-secondary dark:text-white'
+                : 'text-black/50 hover:border-primary'
+            }`}
+          >
+            H5
+          </button>
+          <button
+            type='button'
+            title='Heading 6'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
+            className={`border-2 border-white w-8 h-8 flex items-center justify-center rounded-sm transition-all font-bold ${
+              editor.isActive('heading', { level: 6 })
+                ? 'bg-gray-100 dark:bg_white/10 text-secondary dark:text-white'
+                : 'text-black/50 hover:border-primary'
+            }`}
+          >
+            H6
+          </button>
         </div>
 
         {/* Editor content */}
