@@ -305,9 +305,11 @@ export async function deleteBlog(id: string) {
   await submitToIndexNow([url])
 }
 
+
 export async function updateBlog(id: string, formData: FormData) {
   const session = await auth()
   if (!session?.user?.id) throw new Error('Unauthorized')
+
   const userRoles = session.user.roles as UserRole[] | undefined
   if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
 
@@ -319,21 +321,30 @@ export async function updateBlog(id: string, formData: FormData) {
 
   if (!title || !slug) throw new Error('Title and slug required')
 
+  const cleanSlug = slug.trim().toLowerCase().replace(/\s+/g, '-')
+
+
   await prisma.blogPost.update({
     where: { id },
     data: {
       title,
-      slug: slug.trim().toLowerCase().replace(/\s+/g, '-'),
+      slug: cleanSlug,
       content: content ?? '',
       featuredImage: coverImage,
       contentHtml: content ?? '',
       metaDescription: excerpt,
     },
   })
+
   revalidatePath('/dashboard/blogs')
   revalidatePath('/dashboard')
-  await submitToIndexNow([`${process.env.NEXT_PUBLIC_SITE_URL}/${slug}`])
+  revalidatePath(`/${cleanSlug}`)
+
+  await submitToIndexNow([
+    `${process.env.NEXT_PUBLIC_SITE_URL}/${cleanSlug}`
+  ])
 }
+
 
 export async function getNewsletterSubscriberCount() {
   const session = await auth()
