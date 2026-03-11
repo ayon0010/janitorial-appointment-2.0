@@ -6,6 +6,7 @@ import { UserRole } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { sendLeadNotificationEmail } from '@/lib/resend'
 import { getStateMatchValues } from '@/data/seo-keywords'
+import { submitToIndexNow } from './indexnow'
 
 export async function setUserRole(userId: string, roles: UserRole[]) {
   const session = await auth()
@@ -274,17 +275,34 @@ export async function createBlog(formData: FormData) {
   })
   revalidatePath('/dashboard/blogs')
   revalidatePath('/dashboard')
+  await submitToIndexNow([`${process.env.NEXT_PUBLIC_SITE_URL}/${slug}`])
 }
 
 export async function deleteBlog(id: string) {
   const session = await auth()
+
   if (!session?.user?.id) throw new Error('Unauthorized')
+
   const userRoles = session.user.roles as UserRole[] | undefined
   if (!userRoles?.includes(UserRole.ADMIN)) throw new Error('Forbidden')
 
+  const blog = await prisma.blogPost.findUnique({
+    where: { id },
+    select: { slug: true }
+  })
+
+  if (!blog) throw new Error('Blog not found')
+
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${blog.slug}`
+
   await prisma.blogPost.delete({ where: { id } })
+
   revalidatePath('/dashboard/blogs')
   revalidatePath('/dashboard')
+  revalidatePath(`/${blog.slug}`)
+
+  // notify IndexNow that URL changed (deleted)
+  await submitToIndexNow([url])
 }
 
 export async function updateBlog(id: string, formData: FormData) {
@@ -314,6 +332,7 @@ export async function updateBlog(id: string, formData: FormData) {
   })
   revalidatePath('/dashboard/blogs')
   revalidatePath('/dashboard')
+  await submitToIndexNow([`${process.env.NEXT_PUBLIC_SITE_URL}/${slug}`])
 }
 
 export async function getNewsletterSubscriberCount() {
