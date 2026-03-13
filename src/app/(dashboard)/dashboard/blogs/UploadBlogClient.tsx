@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react'
 import BlogFeatureImage from './BlogFeatureImage'
 import BlogDetails from './BlogDetails'
-import { createBlog, updateBlog } from '@/actions/admin'
+import { createBlog, updateBlog, deleteBlog } from '@/actions/admin'
 
 type DashboardBlog = {
   id: string
@@ -131,6 +131,32 @@ const UploadBlogClient: React.FC<Props> = ({ initialPosts }) => {
     setMessage('')
   }
 
+  const handleDeletePost = async (post: DashboardBlog) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete the blog "${post.title}"? This cannot be undone.`,
+    )
+    if (!confirmed) return
+
+    try {
+      setStatus('loading')
+      setMessage('')
+      await deleteBlog(post.id)
+      setPosts((prev) => prev.filter((p) => p.id !== post.id))
+      if (editingId === post.id) {
+        resetForm()
+      } else {
+        setStatus('done')
+        setMessage('Blog deleted successfully.')
+      }
+    } catch (err) {
+      console.error('Delete blog error:', err)
+      setStatus('error')
+      setMessage(
+        err instanceof Error ? err.message : 'Failed to delete blog. Please try again.',
+      )
+    }
+  }
+
   return (
     <div className="flex flex-col gap-10 lg:flex-row">
       <div className="flex-1 flex flex-col gap-6">
@@ -246,30 +272,49 @@ const UploadBlogClient: React.FC<Props> = ({ initialPosts }) => {
         ) : (
           <div className="flex flex-col gap-2 max-h-[420px] overflow-y-auto pr-1">
             {sortedPosts.map((post) => (
-              <button
+              <div
                 key={post.id}
-                type="button"
-                onClick={() => handleSelectPost(post)}
-                className={`w-full text-left rounded-lg border px-3 py-2.5 text-sm transition-colors cursor-pointer ${editingId === post.id
+                className={`w-full rounded-lg border px-3 py-2.5 text-sm transition-colors ${editingId === post.id
                   ? 'border-primary bg-primary/5 text-secondary dark:text-white'
                   : 'border-gray-200 bg-white hover:bg-gray-50 dark:border-white/10 dark:bg-darkmode dark:hover:bg-white/10 text-secondary dark:text-white'
                   }`}
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-medium line-clamp-2">{post.title}</p>
-                    <p className="mt-0.5 text-[11px] text-SlateBlue/80 dark:text-darktext/80 line-clamp-1">
-                      {post.slug}
-                    </p>
+                <button
+                  type="button"
+                  onClick={() => handleSelectPost(post)}
+                  className="w-full text-left"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="font-medium line-clamp-2">{post.title}</p>
+                      <p className="mt-0.5 text-[11px] text-SlateBlue/80 dark:text-darktext/80 line-clamp-1">
+                        {post.slug}
+                      </p>
+                    </div>
+                    <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-SlateBlue dark:bg-white/10 dark:text-darktext">
+                      Edit
+                    </span>
                   </div>
-                  <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-SlateBlue dark:bg-white/10 dark:text-darktext">
-                    Edit
-                  </span>
+                  <p className="mt-1 text-[11px] text-SlateBlue/80 dark:text-darktext/80">
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </p>
+                </button>
+                <div className="mt-2 flex items-center justify-between gap-2 text-[11px]">
+                  <a
+                    href={`/${post.slug}`}
+                    className="text-primary hover:underline"
+                  >
+                    View
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => handleDeletePost(post)}
+                    className="text-red-600 dark:text-red-400 hover:underline cursor-pointer"
+                  >
+                    Delete
+                  </button>
                 </div>
-                <p className="mt-1 text-[11px] text-SlateBlue/80 dark:text-darktext/80">
-                  {new Date(post.createdAt).toLocaleDateString()}
-                </p>
-              </button>
+              </div>
             ))}
           </div>
         )}
