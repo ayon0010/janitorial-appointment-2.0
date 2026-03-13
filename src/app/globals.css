@@ -155,14 +155,6 @@
   @apply font-bold dark:text-white;
 }
 
-.blog-details ul {
-  @apply mb-8 list-inside list-disc space-y-3 text-SlateBlue dark:text-darktext;
-}
-
-.blog-details ol {
-  @apply mb-8 list-inside list-decimal space-y-3;
-}
-
 .blog-details h1 {
   @apply mb-8 text-3xl font-bold text-secondary dark:text-white sm:text-4xl md:text-[40px] leading-[3rem];
 }
@@ -173,6 +165,23 @@
 
 .blog-details h3 {
   @apply mb-6 text-2xl font-bold dark:text-white sm:text-[28px] leading-[2.25rem];
+}
+
+.blog-details h1,
+.blog-details h2,
+.blog-details h3,
+.blog-details h4,
+.blog-details h5,
+.blog-details h6 {
+  scroll-margin-top: 120px;
+}
+
+.blog-details ul {
+  @apply mb-8 list-disc list-outside pl-5 space-y-3 text-SlateBlue dark:text-darktext;
+}
+
+.blog-details ol {
+  @apply mb-8 list-decimal list-outside pl-5 space-y-3;
 }
 
 /* Style.css */

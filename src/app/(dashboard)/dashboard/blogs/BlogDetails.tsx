@@ -36,6 +36,7 @@ const BlogDetails = ({ contentHtml, setContentHtml, setContent }: Props) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
   const [showSpecialChars, setShowSpecialChars] = useState(false)
   const [customColor, setCustomColor] = useState('#000000')
+  const [anchorId, setAnchorId] = useState('')
   const colorPickerRef = useRef<HTMLDivElement | null>(null)
   const specialCharsRef = useRef<HTMLDivElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -173,6 +174,18 @@ const BlogDetails = ({ contentHtml, setContentHtml, setContent }: Props) => {
 
     // reset input so selecting same file again still triggers change
     event.target.value = ''
+  }
+
+  const applyAnchorId = () => {
+    if (!editor) return
+    const id = anchorId.trim()
+    if (!id) return
+
+    if (editor.isActive('heading')) {
+      editor.chain().focus().updateAttributes('heading', { id }).run()
+    } else if (editor.isActive('paragraph')) {
+      editor.chain().focus().updateAttributes('paragraph', { id }).run()
+    }
   }
 
   if (!editor) {
@@ -557,6 +570,25 @@ const BlogDetails = ({ contentHtml, setContentHtml, setContent }: Props) => {
           >
             H6
           </button>
+
+          {/* Anchor ID for internal linking */}
+          <div className='flex items-center gap-2 ml-4'>
+            <input
+              type='text'
+              value={anchorId}
+              onChange={(e) => setAnchorId(e.target.value)}
+              placeholder='section-id'
+              title='Anchor ID for current heading/paragraph'
+              className='h-8 px-2 text-xs border border-gray-300 rounded-sm bg-white dark:bg-darkmode dark:text-white focus:outline-none focus:border-primary'
+            />
+            <button
+              type='button'
+              onClick={applyAnchorId}
+              className='h-8 px-2 text-xs border border-primary rounded-sm bg-primary/10 text-primary hover:bg-primary/20 transition-all cursor-pointer'
+            >
+              Set ID
+            </button>
+          </div>
         </div>
 
         {/* Editor content */}
