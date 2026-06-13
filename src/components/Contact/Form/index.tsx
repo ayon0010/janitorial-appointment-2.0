@@ -4,10 +4,12 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createContact } from '@/actions/contact'
+import { Turnstile } from "@marsidev/react-turnstile";
 
 const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { contactEmail?: string }) => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -17,6 +19,12 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
     const formData = new FormData(form)
 
     try {
+      if (!turnstileToken) {
+        setStatus("error");
+        setMessage("Please complete the security verification.");
+        return;
+      }
+      formData.append("turnstileToken", turnstileToken);
       await createContact(formData)
       setStatus('done')
       setMessage('Message sent. We’ll get back to you soon.')
@@ -127,12 +135,24 @@ const ContactForm = ({ contactEmail = 'contact@janitorialappointment.com' }: { c
                 </div>
                 {message && (
                   <p
-                    className={`w-full mx-0 my-2.5 text-sm ${
-                      status === 'error' ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'
-                    }`}>
+                    className={`w-full mx-0 my-2.5 text-sm ${status === 'error' ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'
+                      }`}>
                     {message}
                   </p>
                 )}
+                <input
+                  type="text"
+                  name="website"
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+                <div className='mx-0 my-2.5 w-full'>
+                  <Turnstile
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                    onSuccess={(token) => setTurnstileToken(token)}
+                  />
+                </div>
                 <div className='mx-0 my-2.5 w-full'>
                   <button
                     type='submit'
