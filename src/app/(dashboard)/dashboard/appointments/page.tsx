@@ -1,7 +1,17 @@
+import AppointmentDelete from '@/components/SharedComponent/Buttons/AppointmentDelete'
+import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
 
 export default async function AppointmentsPage() {
+  const session = await auth();
+  const isAdmin = session?.user.roles.includes('ADMIN')
+
+  if (!session && !isAdmin) {
+    return 'unauthorized'
+  }
+
+
   const appointments = await prisma.message.findMany({
     orderBy: { createdAt: 'desc' },
   })
@@ -37,6 +47,9 @@ export default async function AppointmentsPage() {
                   <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
                     Service area
                   </th>
+                  <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -62,6 +75,9 @@ export default async function AppointmentsPage() {
                     </td>
                     <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext">
                       {m.serviceArea || '—'}
+                    </td>
+                    <td>
+                      <AppointmentDelete id={m?.id} />
                     </td>
                   </tr>
                 ))}
