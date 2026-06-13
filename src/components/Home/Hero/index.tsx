@@ -237,6 +237,13 @@ const Hero = ({ searchParams }: HeroProps) => {
                       .
                     </label>
                   </div>
+                  <input
+                    type="text"
+                    name="website"
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
                   <button
                     type="submit"
                     className="text-secondary bg-LightApricot hover:bg-secondary focus:ring-4 hover:text-white focus:outline-hidden focus:ring-blue-300 font-normal rounded-lg text-base w-full px-5 py-2.5 text-center  transition-all duration-0.4s cursor-pointer"

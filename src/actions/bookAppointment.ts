@@ -18,6 +18,12 @@ export async function bookAppointment(formData: FormData): Promise<void> {
   const serviceArea = formData.get('serviceArea')
   const termsAndConditions = formData.get('termsAndConditions') === 'accepted'
 
+  const website = formData.get("website");
+
+  if (website) {
+    return redirect("/?error=Spam detected");
+  }
+
   // Validate
   if (!firstName || !lastName || !email || !company || !phone) {
     redirect('/?error=' + encodeURIComponent('All fields are required'))
