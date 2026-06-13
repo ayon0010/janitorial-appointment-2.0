@@ -37,6 +37,8 @@ const AppointmentDelete: React.FC<AppointmentDeleteProps> = (props) => {
             }
 
             await response.json();
+            // optional: refresh UI or router refresh
+            router.refresh();
 
             Swal.fire({
                 title: "Deleted!",
@@ -46,8 +48,7 @@ const AppointmentDelete: React.FC<AppointmentDeleteProps> = (props) => {
                 showConfirmButton: false,
             });
 
-            // optional: refresh UI or router refresh
-            router.refresh();
+
         } catch (error) {
             Swal.fire({
                 title: "Error!",
