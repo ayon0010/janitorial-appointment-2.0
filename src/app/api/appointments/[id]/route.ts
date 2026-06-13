@@ -1,26 +1,29 @@
-import { auth } from '@/lib/auth'
-import { prisma } from '@/lib/prisma';
-import { NextResponse } from 'next/server'
-import { success } from 'zod';
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+    request: Request,
+    context: { params: Promise<{ id: string }> }
+) {
+    const { id } = await context.params;
 
-    const { id } = await params;
     const session = await auth();
-    const isAdmin = session?.user.roles.includes('ADMIN');
+    const isAdmin = session?.user.roles.includes("ADMIN");
 
-    if (!isAdmin && !session) {
-        return NextResponse.json({ success: false, message: 'Unauthorized' })
+    if (!session && !isAdmin) {
+        return NextResponse.json(
+            { success: false, message: "Unauthorized" },
+            { status: 401 }
+        );
     }
 
-    const deleteData = await prisma.message.delete({
-        where: {
-            id: id
-        }
-    })
+    await prisma.message.delete({
+        where: { id },
+    });
 
-
-
-
-    return NextResponse.json({ success: true, message: 'Deleted Successfully' })
+    return NextResponse.json({
+        success: true,
+        message: "Deleted Successfully",
+    });
 }
