@@ -7,6 +7,7 @@ import { SignUpFormSchema } from '@/components/schema/SignUpSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
 import Swal from 'sweetalert2'
+import { Turnstile } from "@marsidev/react-turnstile";
 import { signIn } from 'next-auth/react'
 
 // onSubmit={handleSubmit(onSubmit)}
@@ -15,6 +16,7 @@ type SignUpFormData = z.infer<typeof SignUpFormSchema>
 const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [turnstileToken, setTurnstileToken] = useState("");
 
     const {
         register,
@@ -33,12 +35,25 @@ const SignupPage = () => {
                 Swal.showLoading()
             },
         })
+        if (!turnstileToken) {
+            Swal.fire({
+                title: "Verification Required",
+                text: "Please complete the security check",
+                icon: "warning",
+            });
+
+            return;
+        }
         const response = await fetch('/api/register', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                ...data,
+                turnstileToken,
+            }),
         })
         const result = await response.json();
         Swal.close()
+
         if (result.success) {
             Swal.fire({
                 title: 'Success',
@@ -372,13 +387,25 @@ const SignupPage = () => {
                                         </div>
 
                                     </div>
+                                    <input
+                                        type="text"
+                                        {...register("website" as any)}
+                                        className="hidden"
+                                        style={{ display: 'none' }}
+                                        tabIndex={-1}
+                                        autoComplete="off"
+                                    />
                                     <button
                                         type='submit'
                                         className='w-full bg-gradient-to-r from-primary to-lightPrimary text-white px-6 py-3.5 rounded-xl font-semibold text-base shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 cursor-pointer'
                                     >
                                         Sign Up
                                     </button>
-
+                                    <Turnstile
+                                        className='text-center'
+                                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                                        onSuccess={(token) => setTurnstileToken(token)}
+                                    />
                                     <div className='text-center pt-4 border-t border-gray-200 dark:border-dark_border'>
                                         <p className='text-sm text-SlateBlue dark:text-darktext'>
                                             Already have an account?{' '}

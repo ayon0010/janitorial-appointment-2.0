@@ -8,6 +8,52 @@ const ADMIN_SIGNUP_EMAIL = "shariar.ayon128@gmail.com";
 
 export async function POST(request: Request) {
     const data = await request.json();
+    const turnstileToken = data.turnstileToken;
+
+    if (!turnstileToken) {
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Security verification required",
+            },
+            { status: 400 }
+        );
+    }
+
+    const turnstileResponse = await fetch(
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+                secret: process.env.TURNSTILE_SECRET_KEY!,
+                response: turnstileToken,
+            }),
+        }
+    );
+
+    const turnstileResult = await turnstileResponse.json();
+
+    if (!turnstileResult.success) {
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Bot detected",
+            },
+            { status: 400 }
+        );
+    }
+    if (data.website) {
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Spam detected",
+            },
+            { status: 400 }
+        );
+    }
     const validation = SignUpFormSchema.safeParse(data);
     if (!validation.success) {
         return NextResponse.json({ success: false, message: validation.error.message }, { status: 400 });
