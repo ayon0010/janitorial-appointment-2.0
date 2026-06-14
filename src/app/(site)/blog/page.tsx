@@ -37,7 +37,9 @@ type BlogPageProps = {
 }
 
 const BlogPage = async ({ searchParams }: BlogPageProps) => {
-  const pageFromQuery = searchParams?.page ? Number(searchParams.page) : 1
+
+  const page = (await searchParams)?.page;
+  const pageFromQuery = page ? Number(page) : 1
   const currentPage = Number.isNaN(pageFromQuery) || pageFromQuery < 1 ? 1 : pageFromQuery
 
   const [totalCount, dbPosts] = await Promise.all([
