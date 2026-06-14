@@ -1,3 +1,5 @@
+import ContactDelete from '@/components/SharedComponent/Buttons/ContactDelete'
+import AppointmentsTable from '@/components/Table/AppointmentsTable'
 import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
 
@@ -37,6 +39,9 @@ export default async function ContactsPage() {
                   <th className="px-4 py-3 text-sm font-semibold text-secondary dark:text-white">
                     DNC list
                   </th>
+                  <th className='px-4 py-3 text-sm font-semibold text-secondary dark:text-white'>
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -73,6 +78,9 @@ export default async function ContactsPage() {
                         '—'
                       )}
                     </td>
+                    <td className="px-4 py-3 text-sm text-SlateBlue dark:text-darktext max-w-[160px]">
+                      <ContactDelete id={c.id} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -80,6 +88,7 @@ export default async function ContactsPage() {
           </div>
         )}
       </div>
+
     </div>
   )
 }

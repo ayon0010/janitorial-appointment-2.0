@@ -4,11 +4,11 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import Swal from "sweetalert2";
 
-interface AppointmentDeleteProps {
+interface ContactDeleteProps {
     id: string;
 }
 
-const AppointmentDelete: React.FC<AppointmentDeleteProps> = (props) => {
+const ContactDelete: React.FC<ContactDeleteProps> = (props) => {
 
     const { id } = props;
     const router = useRouter();
@@ -28,7 +28,7 @@ const AppointmentDelete: React.FC<AppointmentDeleteProps> = (props) => {
         if (!result.isConfirmed) return;
 
         try {
-            const response = await fetch(`/api/appointments/${id}`, {
+            const response = await fetch(`/api/contact/${id}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             });
@@ -66,4 +66,4 @@ const AppointmentDelete: React.FC<AppointmentDeleteProps> = (props) => {
     )
 }
 
-export default AppointmentDelete;
+export default ContactDelete;

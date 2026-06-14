@@ -41,6 +41,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             if (!getUser) {
                 return false;
             }
+            // const isActive = getUser.
             return true;
         },
         async session({ token, session }) {

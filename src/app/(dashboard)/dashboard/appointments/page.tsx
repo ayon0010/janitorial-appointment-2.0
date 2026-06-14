@@ -1,4 +1,5 @@
 import AppointmentDelete from '@/components/SharedComponent/Buttons/AppointmentDelete'
+import AppointmentsTable from '@/components/Table/AppointmentsTable';
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
@@ -10,7 +11,6 @@ export default async function AppointmentsPage() {
   if (!session && !isAdmin) {
     return 'unauthorized'
   }
-
 
   const appointments = await prisma.message.findMany({
     orderBy: { createdAt: 'desc' },
