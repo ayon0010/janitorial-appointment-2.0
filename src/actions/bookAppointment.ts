@@ -24,6 +24,17 @@ export async function bookAppointment(formData: FormData): Promise<void> {
     return redirect("/?error=Spam detected");
   }
 
+  // Time check
+  const formLoadedAt = Number(formData.get('formLoadedAt'))
+
+  if (!Number.isNaN(formLoadedAt)) {
+    const secondsSpent = (Date.now() - formLoadedAt) / 1000
+
+    if (secondsSpent < 5) {
+      redirect('/?error=' + encodeURIComponent('Please take a moment to complete the form'))
+    }
+  }
+
   // Validate
   if (!firstName || !lastName || !email || !company || !phone) {
     redirect('/?error=' + encodeURIComponent('All fields are required'))
