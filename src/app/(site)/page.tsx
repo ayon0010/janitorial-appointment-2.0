@@ -10,6 +10,8 @@ import ConnectWithUs from '@/components/Home/ConnectWithUs';
 import FaqQuestion from '@/components/Home/faq';
 import GetStart from '@/components/Home/GetStart';
 import { buildCanonical } from '@/lib/seo';
+import Works from '@/components/Home/Works';
+import PayPerAppointment from '@/components/Home/PayPer';
 
 export const metadata: Metadata = {
   title: "Commercial Cleaning Leads & Janitorial Appointment Booking",
@@ -39,7 +41,9 @@ export default async function Home({ searchParams }: HomeProps) {
     <main className='w-full'>
       <Hero searchParams={params} />
       <BuildAmazing isSpace={true} />
+      <PayPerAppointment />
       <GetStart />
+      <Works />
       <WorkGrow />
       <Preferred />
       <Counter />
