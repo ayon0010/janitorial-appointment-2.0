@@ -8,12 +8,12 @@ function LeadCardSection() {
     return (
         <div className="relative flex w-full items-center justify-center h-full">
             {/* Top-Left Metric: Appointments Sold */}
-            <div className="absolute left-0 top-0 rounded-2xl bg-slate-900 backdrop-blur-md border border-white/5 px-4 py-3 sm:px-5 sm:py-4">
+            <div className="absolute left-0 top-0 rounded-2xl bg-slate-900 backdrop-blur-md border border-white/5 px-4 py-3 sm:px-5 sm:py-4 hidden md:block">
                 <p className="text-xs font-medium text-white sm:text-sm">Appointments Sold</p>
                 <p className="text-xl font-bold tracking-tight text-white sm:text-2xl">240K+</p>
             </div>
             {/* Right Metric: Retention */}
-            <div className="absolute right-0 bottom-0 rounded-2xl bg-slate-900 backdrop-blur-md border border-white/5 px-4 py-3 text-center sm:px-5 sm:py-4">
+            <div className="absolute right-0 bottom-0 rounded-2xl bg-slate-900 backdrop-blur-md border border-white/5 px-4 py-3 text-center sm:px-5 sm:py-4 hidden md:block">
                 <p className="text-xs font-medium text-white sm:text-sm">Retention</p>
                 <p className="text-xl font-bold tracking-tight text-white sm:text-2xl">92%</p>
             </div>
