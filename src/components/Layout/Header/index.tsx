@@ -73,7 +73,10 @@ const Header: React.FC = () => {
   }, [pathUrl])
 
   return (
-    <>
+    <div className={`sticky top-0 py-1 z-50 w-full bg-primary transition-all ${sticky
+          ? 'shadow-lg dark:shadow-darkmd bg-primary dark:bg-primary'
+          : 'shadow-none'
+          }`}>
       {/* Top bar: email, WhatsApp, Facebook, hours */}
       <div className="bg-secondary dark:bg-darklight border-b border-white/10">
         <div className="container mx-auto px-4 py-2">
@@ -121,10 +124,7 @@ const Header: React.FC = () => {
       </div>
 
       <header
-        className={`sticky top-0 py-1 z-50 w-full bg-primary transition-all ${sticky
-          ? 'shadow-lg dark:shadow-darkmd bg-primary dark:bg-primary'
-          : 'shadow-none'
-          }`}>
+        className="w-full">
         <div className='container mx-auto flex items-center justify-between p-6'>
           <Link href='/' className='flex items-center gap-2'>
             <div className='shrink-0 relative'>
@@ -320,7 +320,7 @@ const Header: React.FC = () => {
           </nav>
         </div>
       </header>
-    </>
+    </div>
   )
 }
 
