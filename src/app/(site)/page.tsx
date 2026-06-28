@@ -42,13 +42,13 @@ export default async function Home({ searchParams }: HomeProps) {
       <Hero searchParams={params} />
       <BuildAmazing isSpace={true} />
       <PayPerAppointment />
+      <ConnectWithUs />
       <GetStart />
       <Works />
       <WorkGrow />
       <Preferred />
       <Counter />
       <CustomerReviews />
-      <ConnectWithUs />
       <FaqQuestion />
     </main>
   )
