@@ -48,7 +48,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                   </svg>
 
                   <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
-                    Qualified Leads Only
+                    Qualified appointments Only
                   </span>
                 </div>
                 <div className='flex items-center gap-2'>
