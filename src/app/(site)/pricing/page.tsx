@@ -101,7 +101,9 @@ const page = () => {
         </div>
       </section> */}
 
-      <ConnectWithUs />
+      <div className="pt-10">
+        <ConnectWithUs />
+      </div>
       
       <div className='pt-20'>
         <ContactForm contactEmail="contact@janitorialappointment.com" />
