@@ -73,7 +73,7 @@ const Header: React.FC = () => {
   }, [pathUrl])
 
   return (
-    <div className={`sticky top-0 py-1 z-50 w-full bg-primary transition-all ${sticky
+    <div className={`sticky top-0 z-50 w-full bg-primary transition-all ${sticky
           ? 'shadow-lg dark:shadow-darkmd bg-primary dark:bg-primary'
           : 'shadow-none'
           }`}>
