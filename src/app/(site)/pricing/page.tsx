@@ -101,7 +101,7 @@ const page = () => {
         </div>
       </section> */}
 
-      <div className="pt-10">
+      <div className="pt-20">
         <ConnectWithUs />
       </div>
       
