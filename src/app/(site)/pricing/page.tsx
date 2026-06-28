@@ -4,6 +4,8 @@ import ContactForm from '@/components/Contact/Form'
 import React from 'react'
 import { Metadata } from 'next'
 import { buildCanonical } from '@/lib/seo'
+import PayPerAppointment from '@/components/Home/PayPer';
+import ConnectWithUs from '@/components/Home/ConnectWithUs';
 
 export const metadata: Metadata = {
   title: 'Pricing | Commercial Cleaning Leads & Janitorial Appointment Setting',
@@ -32,6 +34,8 @@ const page = () => {
         title="Pricing"
         description="Flexible plans for commercial cleaning leads and janitorial appointment setting. Choose monthly or annual—or contact us for a custom quote tailored to your lead volume and goals."
       />
+
+       <PayPerAppointment />
 
       {/* SEO content */}
       <section className="bg-white dark:bg-darkmode py-12 md:py-16">
@@ -79,8 +83,10 @@ const page = () => {
 
       <Preferred />
 
+      
+
       {/* Contact CTA + Form */}
-      <section className="bg-AliceBlue dark:bg-darklight py-12 md:py-16 mt-20">
+      {/* <section className="bg-AliceBlue dark:bg-darklight py-12 md:py-16 mt-20">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center mb-12">
             <h2 className="text-secondary dark:text-white text-2xl md:text-3xl font-bold mb-4">
@@ -93,7 +99,10 @@ const page = () => {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <ConnectWithUs />
+      
       <div className='pt-20'>
         <ContactForm contactEmail="contact@janitorialappointment.com" />
       </div>
