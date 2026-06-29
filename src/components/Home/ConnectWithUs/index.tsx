@@ -1,13 +1,17 @@
 'use client'
 import React from 'react'
+import { Mail } from "lucide-react";
 import Link from 'next/link'
 
 const ConnectWithUs = () => {
   const whatsappNumber = '8801568868704' // Format: country code + number (no + sign in URL)
   const whatsappMessage = encodeURIComponent('Hello! I would like to learn more about your janitorial appointment booking service.')
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
+  
 
   const facebookUrl = 'https://www.facebook.com/commercialcleaningleads/'
+
+  const emailUrl = ""
 
   return (
     <section className='py-20 dark:bg-darklight bg-AliceBlue overflow-x-hidden'>
@@ -52,33 +56,26 @@ const ConnectWithUs = () => {
               </p>
             </div>
           </a>
-
           <a
-            href={facebookUrl}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='group flex items-center gap-4 bg-white dark:bg-darkmode px-8 py-6 rounded-2xl shadow-light_shadwo dark:shadow-darkmd hover:shadow-lg transition-all duration-300 cursor-pointer'
-            data-aos='fade-left'
-            data-aos-delay='600'
-            data-aos-duration='1000'>
-            <div className='w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300'>
-              <svg
-                className='w-8 h-8 text-blue-600 dark:text-blue-400'
-                fill='currentColor'
-                viewBox='0 0 24 24'
-                xmlns='http://www.w3.org/2000/svg'>
-                <path d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z' />
-              </svg>
-            </div>
-            <div>
-              <h4 className='text-xl font-bold text-secondary dark:text-white mb-1'>
-                Follow on Facebook
-              </h4>
-              <p className='text-sm text-SlateBlue dark:text-darktext'>
-                Stay updated with our latest news and tips
-              </p>
-            </div>
-          </a>
+  href="mailto:contact@janitorialappointment.com"
+  className="group flex items-center gap-4 bg-white dark:bg-darkmode px-8 py-6 rounded-2xl shadow-light_shadwo dark:shadow-darkmd hover:shadow-lg transition-all duration-300 cursor-pointer"
+  data-aos="fade-left"
+  data-aos-delay="600"
+  data-aos-duration="1000"
+>
+  <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+    <Mail className="w-8 h-8 text-red-600 dark:text-red-400" />
+  </div>
+
+  <div>
+    <h4 className="text-xl font-bold text-secondary dark:text-white mb-1">
+      Email Us
+    </h4>
+    <p className="text-sm text-SlateBlue dark:text-darktext">
+      contact@janitorialappointment.com
+    </p>
+  </div>
+</a>
         </div>
       </div>
     </section>
