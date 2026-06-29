@@ -8,6 +8,7 @@ import Aoscompo from "@/utils/aos";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProvider } from "next-auth/react";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import Script from "next/script";
 import {
   defaultMetadata,
@@ -40,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={dmsans.className}>
-        {GTM_ID && (
+        {/* {GTM_ID && (
           <Script
             id="gtm-head"
             strategy="afterInteractive"
@@ -52,7 +53,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${GTM_ID}');`,
             }}
           />
-        )}
+        )} */}
+        {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -63,7 +65,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        {GTM_ID && (
+        {/* {GTM_ID && (
           <noscript>
             <iframe
               src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -73,7 +75,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               title="Google Tag Manager"
             />
           </noscript>
-        )}
+        )} */}
 
         <SessionProvider>
           <ChatProvider>
