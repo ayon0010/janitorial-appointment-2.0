@@ -6,58 +6,59 @@ import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { SITE_NAME } from '@/data/seo-keywords'
 import { buildCanonical, getArticleJsonLd, getBreadcrumbJsonLd } from '@/lib/seo'
+import ConnectWithUs from '@/components/Home/ConnectWithUs'
 
 type Props = {
     params: Promise<{ slug: string }>
 }
 
 function addHeadingIds(html: string): string {
-  const usedIds = new Set<string>()
+    const usedIds = new Set<string>()
 
-  const slugify = (text: string) => {
-    // Approche proche de WordPress : texte → slug URL-safe
-    const withoutTags = text.replace(/<[^>]+>/g, '')
+    const slugify = (text: string) => {
+        // Approche proche de WordPress : texte → slug URL-safe
+        const withoutTags = text.replace(/<[^>]+>/g, '')
 
-    const base = withoutTags
-      .normalize('NFD') // sépare les accents
-      .replace(/[\u0300-\u036f]/g, '') // supprime les diacritiques
-      .toLowerCase()
-      .trim()
-      .replace(/&[a-z0-9#]+;/gi, ' ') // entités HTML → espace
-      .replace(/[^a-z0-9\s-]/g, '') // caractères non alphanumériques
-      .replace(/\s+/g, '-') // espaces → tirets
-      .replace(/-+/g, '-') // tirets multiples → un seul
-      .replace(/^-|-$/g, '') // trim des tirets
+        const base = withoutTags
+            .normalize('NFD') // sépare les accents
+            .replace(/[\u0300-\u036f]/g, '') // supprime les diacritiques
+            .toLowerCase()
+            .trim()
+            .replace(/&[a-z0-9#]+;/gi, ' ') // entités HTML → espace
+            .replace(/[^a-z0-9\s-]/g, '') // caractères non alphanumériques
+            .replace(/\s+/g, '-') // espaces → tirets
+            .replace(/-+/g, '-') // tirets multiples → un seul
+            .replace(/^-|-$/g, '') // trim des tirets
 
-    const fallback = 'section'
-    const baseSlug = base || fallback
+        const fallback = 'section'
+        const baseSlug = base || fallback
 
-    let id = baseSlug
-    let counter = 2
-    while (usedIds.has(id)) {
-      id = `${baseSlug}-${counter++}` // foo, foo-2, foo-3…
+        let id = baseSlug
+        let counter = 2
+        while (usedIds.has(id)) {
+            id = `${baseSlug}-${counter++}` // foo, foo-2, foo-3…
+        }
+        usedIds.add(id)
+        return id
     }
-    usedIds.add(id)
-    return id
-  }
 
-  return html.replace(
-    /<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi,
-    (match, level, attrs, content) => {
-      // Comme WordPress : si un id existe déjà (défini dans le CMS), on le respecte
-      if (/\sid\s*=/.test(attrs)) return match
-      const id = slugify(content)
-      return `<h${level}${attrs} id="${id}">${content}</h${level}>`
-    },
-  )
+    return html.replace(
+        /<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi,
+        (match, level, attrs, content) => {
+            // Comme WordPress : si un id existe déjà (défini dans le CMS), on le respecte
+            if (/\sid\s*=/.test(attrs)) return match
+            const id = slugify(content)
+            return `<h${level}${attrs} id="${id}">${content}</h${level}>`
+        },
+    )
 }
 
 function sanitizeLinks(html: string): string {
-  // 1) enlever target="_blank" / target='_blank' (et tout autre target)
-  let result = html.replace(/\s+target=(["']).*?\1/gi, '')
-  // 2) optionnel : nettoyer rel="noopener noreferrer" devenu inutile
-  result = result.replace(/\s+rel=(["']).*?\1/gi, '')
-  return result
+    // 1) enlever target="_blank" / target='_blank' (et tout autre target)
+    let result = html.replace(/\s+target=(["']).*?\1/gi, '')
+    // 2) optionnel : nettoyer rel="noopener noreferrer" devenu inutile
+    result = result.replace(/\s+rel=(["']).*?\1/gi, '')
+    return result
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -179,6 +180,7 @@ export default async function Post({ params }: Props) {
                     </div>
                 </div>
             </section>
+            <ConnectWithUs />
             <div className='bg-LightSoftBlue dark:bg-darklight! lg:py-40 py-16 lg:pb-40 pb-28 -mb-28'>
                 <Blog />
             </div>
