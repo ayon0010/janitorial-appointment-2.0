@@ -14,6 +14,7 @@ import {
   getBreadcrumbJsonLd,
   getServiceJsonLd,
 } from "@/lib/seo";
+import ConnectWithUs from '@/components/Home/ConnectWithUs';
 
 type Props = {
   params: Promise<{ state: string }>;
@@ -1073,6 +1074,9 @@ export default async function CommercialCleaningLeadsStatePage({
             </header>
           </div>
         </section>
+
+
+         <ConnectWithUs />
 
         {/* Appointment setting H2 */}
         <section
