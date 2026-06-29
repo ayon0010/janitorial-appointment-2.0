@@ -1511,7 +1511,7 @@ export default async function CommercialCleaningLeadsStatePage({
         </section>
 
         {/* Plans / CTA */}
-        <section className="dark:bg-darklight py-10">
+        <section className="dark:bg-darklight py-16 md:py-20">
           <div className="container">
             <Preferred />
           </div>
