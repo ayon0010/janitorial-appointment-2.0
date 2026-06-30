@@ -85,7 +85,7 @@ const PayPerAppointment = () => {
                         Simple Pay-Per-Appointment Pricing
                     </h2>
                     <p className='text-base font-normal text-SlateBlue dark:text-darktext max-w-408'>
-                        Pay only for qualified appointments that take place. There are no upfront costs, long-term commitments, or hidden fees. We earn your business by consistently delivering verified decision-makers directly to your calendar. If a confirmed prospect doesn't attend the meeting, you won't be charged.
+                       Work with us on a pay-per-appointment basis for just $135 per qualified appointment if you don't want to choose a package. There are no upfront costs, long-term commitments, or hidden fees. You only pay for verified appointments that take place, and if a confirmed prospect doesn't attend the meeting, you won't be charged.
                     </p>
                     <div className='pt-6 flex flex-col gap-y-5'>
                         <div className='flex items-center gap-2'>
